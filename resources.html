@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Media Smart Youth Ethiopia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Same CSS as index.html - copy the entire style section from index.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #5D083F;
+            --secondary: #F58634;
+            --accent: #2299B9;
+            --light: #f9f9f9;
+            --dark: #2c3e50;
+            --text: #333;
+            --text-light: #777;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background: #e0762a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: #1d87a5;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            display: inline-block;
+        }
+
+        .section-title h2:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .header-scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .scrolled-nav {
+            padding: 10px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-align: center;
+            padding: 150px 0 80px;
+            margin-top: 80px;
+        }
+
+        .page-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .resources-content {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        .resources-list {
+            flex: 1;
+        }
+
+        .resources-list ul {
+            list-style: none;
+        }
+
+        .resources-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .resources-list li:before {
+            content: '►';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+
+        .resources-list a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .resources-list a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .resources-visual {
+            flex: 1;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .download-section {
+            background: #f1f8ff;
+            padding: 80px 0;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .download-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .download-card i {
+            font-size: 40px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        footer {
+            background: #3a0645;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo, .footer-links, .footer-social {
+            flex: 1;
+        }
+
+        .footer-logo p {
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        .footer-links h3, .footer-social h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .page-content {
+            min-height: 80vh;
+        }
+
+        @media (max-width: 992px) {
+            .resources-content {
+                flex-direction: column;
+            }
+            
+            .resources-visual {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                transition: left 0.3s;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav id="nav">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration: none;">
+                        <div class="logo-text">MeSY <span>Ethiopia</span></div>
+                    </a>
+                </div>
+                <div class="menu-toggle">☰</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="resources.html" class="active">Resources</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-content">
+        <section class="page-hero">
+            <div class="container">
+                <h1>Resources</h1>
+                <p>Access our media literacy tools, training materials, and educational resources</p>
+            </div>
+        </section>
+
+        <section class="resources">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Media Literacy Tools & Materials</h2>
+                </div>
+                <div class="resources-content">
+                    <div class="resources-list">
+                        <h3>Available Resources</h3>
+                        <ul>
+                            <li><a href="#">Media Literacy Toolkit for Educators</a></li>
+                            <li><a href="#">Fact-Checking Guide for Social Media</a></li>
+                            <li><a href="#">Digital Citizenship Curriculum</a></li>
+                            <li><a href="#">Understanding Misinformation Patterns</a></li>
+                            <li><a href="#">Media Production Guide for Youth</a></li>
+                            <li><a href="#">TFGBV Prevention Resources</a></li>
+                            <li><a href="#">Peacebuilding Through Media Guide</a></li>
+                            <li><a href="#">Youth Media Literacy Handbook</a></li>
+                            <li><a href="#">Critical Thinking Exercises</a></li>
+                            <li><a href="#">Social Media Verification Techniques</a></li>
+                        </ul>
+                    </div>
+                    <div class="resources-visual">
+                        <h3>Download Our Latest Materials</h3>
+                        <p>Access our media literacy resources available in multiple local languages to ensure accessibility and inclusivity across Ethiopia.</p>
+                        <div style="height: 200px; background: #f0f0f0; border-radius: 5px; display: flex; align-items: center; justify-content: center; margin-top: 20px; color: #777;">
+                            Resource Preview/Download Area
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="download-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Featured Resources</h2>
+                </div>
+                <div class="download-grid">
+                    <div class="download-card">
+                        <i class="fas fa-book"></i>
+                        <h3>Media Literacy Handbook</h3>
+                        <p>Comprehensive guide covering essential media literacy concepts and practical exercises for youth.</p>
+                        <a href="#" class="btn">Download PDF</a>
+                    </div>
+                    <div class="download-card">
+                        <i class="fas fa-video"></i>
+                        <h3>Video Tutorials</h3>
+                        <p>Series of instructional videos on fact-checking, media analysis, and responsible content creation.</p>
+                        <a href="#" class="btn">Watch Now</a>
+                    </div>
+                    <div class="download-card">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <h3>Educator's Guide</h3>
+                        <p>Resources specifically designed for teachers and facilitators to integrate media literacy into curricula.</p>
+                        <a href="#" class="btn">Download Guide</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="resources">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Multilingual Resources</h2>
+                </div>
+                <div class="resources-content">
+                    <div class="resources-visual">
+                        <h3>Available in Local Languages</h3>
+                        <p>We develop and publish our original training materials in 4+ local languages to ensure accessibility and inclusivity across Ethiopia's diverse communities.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <span class="btn" style="padding: 8px 15px;">Amharic</span>
+                            <span class="btn" style="padding: 8px 15px;">Oromo</span>
+                            <span class="btn" style="padding: 8px 15px;">Tigrinya</span>
+                            <span class="btn" style="padding: 8px 15px;">Somali</span>
+                        </div>
+                    </div>
+                    <div class="resources-list">
+                        <h3>Language-Specific Materials</h3>
+                        <ul>
+                            <li><a href="#">Amharic Media Literacy Guide</a></li>
+                            <li><a href="#">Oromo Fact-Checking Handbook</a></li>
+                            <li><a href="#">Tigrinya Digital Safety Resources</a></li>
+                            <li><a href="#">Somali Social Media Verification</a></li>
+                            <li><a href="#">Multilingual Infographics</a></li>
+                            <li><a href="#">Cultural Context Guides</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-text" style="color: white;">MeSY <span style="color: #F58634;">Ethiopia</span></div>
+                    <p>Empowering young people with media literacy skills to navigate the digital world responsibly and critically.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Media Smart Youth Ethiopia. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            const nav = document.getElementById('nav');
+            
+            if(window.scrollY > 100) {
+                header.classList.add('header-scrolled');
+                nav.classList.add('scrolled-nav');
+            } else {
+                header.classList.remove('header-scrolled');
+                nav.classList.remove('scrolled-nav');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

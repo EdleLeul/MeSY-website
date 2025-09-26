@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Media Smart Youth Ethiopia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Same CSS as index.html - copy the entire style section from index.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #5D083F;
+            --secondary: #F58634;
+            --accent: #2299B9;
+            --light: #f9f9f9;
+            --dark: #2c3e50;
+            --text: #333;
+            --text-light: #777;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background: #e0762a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: #1d87a5;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            display: inline-block;
+        }
+
+        .section-title h2:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .header-scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .scrolled-nav {
+            padding: 10px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .logo-text span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-align: center;
+            padding: 150px 0 80px;
+            margin-top: 80px;
+        }
+
+        .page-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .mission-vision {
+            background: #f1f8ff;
+            padding: 80px 0;
+        }
+
+        .mv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .mv-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .mv-card i {
+            font-size: 50px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .team {
+            background: white;
+            padding: 80px 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+
+        .team-member:hover {
+            background: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--primary);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 50px;
+        }
+
+        footer {
+            background: #3a0645;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo, .footer-links, .footer-social {
+            flex: 1;
+        }
+
+        .footer-logo p {
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        .footer-links h3, .footer-social h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .page-content {
+            min-height: 80vh;
+        }
+
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                transition: left 0.3s;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav id="nav">
+                <div class="logo">
+                    <a href="index.html" style="text-decoration: none;">
+                        <div class="logo-text">MeSY <span>Ethiopia</span></div>
+                    </a>
+                </div>
+                <div class="menu-toggle">☰</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html" class="active">About Us</a></li>
+                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-content">
+        <section class="page-hero">
+            <div class="container">
+                <h1>About Media Smart Youth Ethiopia</h1>
+                <p>Learn about our mission, vision, and the team behind our youth-led media literacy initiatives</p>
+            </div>
+        </section>
+
+        <section class="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Our Story</h2>
+                        <p>Media Smart Youth (MeSY) Ethiopia is a direct, proactive, and architecturally unique response to Ethiopia's information crisis. We are a non-governmental, non-partisan consortium built on a radical principle: that the solution to a youth-targeted problem must be entirely youth-led.</p>
+                        <p>Our distinction lies in our structure. MeSY is not just guided by youth input; it is managed and operated by youth at every level of leadership. This includes our project managers, our managing directors, our strategic advisors, and our finance personnel.</p>
+                        <p>This ensures that every strategic decision, every creative initiative, and every operational detail is informed by the lived experience, innovation, and urgency of the very generation we serve.</p>
+                    </div>
+                    <div class="about-image">
+                        <div style="width: 100%; height: 400px; background: #e0e0e0; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #777; font-size: 18px;">
+                            Organization Image
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-content" style="flex-direction: row-reverse;">
+                    <div class="about-text">
+                        <h2>Our Approach</h2>
+                        <p>We anchor our work in the principles of positive youth development. Instead of a fear-based model, we take a positive approach to media literacy, encouraging young people to safely explore, create, and critique media while harnessing its vast opportunities for good.</p>
+                        <p>We design flexible, participatory programs that respect and build upon the existing knowledge and digital experiences of young people. Our curriculum is not theoretical; it is applied, equipping youth with hands-on skills they can use immediately.</p>
+                        <p>We leverage the power of our consortium by implementing programs through our member organizations and their vast youth networks. This ensures deep community reach and lasting impact.</p>
+                    </div>
+                    <div class="about-image">
+                        <div style="width: 100%; height: 400px; background: #e0e0e0; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #777; font-size: 18px;">
+                            Approach Visualization
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mission-vision">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Mission & Vision</h2>
+                </div>
+                <div class="mv-grid">
+                    <div class="mv-card">
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Our Mission</h3>
+                        <p>MeSY works to advance young peoples' active citizenship and democratic participation in Ethiopia through the promotion of media literacy. Our goal is to empower young people with skills to access, critically analyze, and evaluate media and enable them to be more responsible in creating and sharing media messages.</p>
+                    </div>
+                    <div class="mv-card">
+                        <i class="fas fa-eye"></i>
+                        <h3>Our Vision</h3>
+                        <p>We envision an Ethiopia where all young people are equipped with the media literacy skills needed to navigate the digital landscape responsibly, critically evaluate information, and become positive contributors to their communities and the nation's democratic processes.</p>
+                    </div>
+                    <div class="mv-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Our Values</h3>
+                        <p>Youth leadership, integrity, innovation, collaboration, and empowerment guide everything we do. We believe in the power of young people to drive change and create a more informed, peaceful, and democratic society.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="team">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Team</h2>
+                </div>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Edlawit Dereje Loulseged</h3>
+                        <p>Team Member</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Bava Abdulgafoor Molden</h3>
+                        <p>Team Member</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Dibora Tameru Awoke</h3>
+                        <p>Team Member</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Hewan Desta Dejenu</h3>
+                        <p>Team Member</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Kalewongel Ayele G/giorgise</h3>
+                        <p>Team Member</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Tewodros Getu Mekonnen</h3>
+                        <p>Team Member</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-text" style="color: white;">MeSY <span style="color: #F58634;">Ethiopia</span></div>
+                    <p>Empowering young people with media literacy skills to navigate the digital world responsibly and critically.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Media Smart Youth Ethiopia. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            const nav = document.getElementById('nav');
+            
+            if(window.scrollY > 100) {
+                header.classList.add('header-scrolled');
+                nav.classList.add('scrolled-nav');
+            } else {
+                header.classList.remove('header-scrolled');
+                nav.classList.remove('scrolled-nav');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
