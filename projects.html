@@ -157,50 +157,51 @@
             color: var(--accent);
         }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 25px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-              font-weight: 600;
-              color: var(--primary);
-              position: relative;
-              padding: 10px 0;
-              transition: color 0.3s;
-        }
-
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--secondary);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a:hover:after {
-            width: 100%;
-        }
-
-        .nav-links a.active {
-            color: var(--primary);
-        }
-
-        .nav-links a.active:after {
-            width: 100%;
-        }
+            .nav-links {
+                display: flex;
+                list-style: none;
+            }
+    
+            .nav-links li {
+                margin-left: 25px;
+            }
+    
+           .nav-links a {
+      text-decoration: none;
+      font-size: 16px;        /* keep size consistent */
+      font-weight: 600;
+      color: var(--primary);  /* plum by default */
+      position: relative;
+      padding: 10px 0;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent); /* teal underline */
+      transition: width 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--accent); /* teal on hover */
+    }
+    
+    .nav-links a:hover:after {
+      width: 100%;
+    }
+    
+    .nav-links a.active {
+      color: var(--primary); /* active link stays plum */
+    }
+    
+    .nav-links a.active:after {
+      width: 100%; /* active link underline stays visible */
+}
 
           /* Mobile Menu Toggle */
     .menu-toggle {
@@ -757,6 +758,7 @@
     </script>
 </body>
 </html>
+
 
 
 
