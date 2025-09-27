@@ -134,7 +134,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            transition: all 0.3s;
+            transition: padding 0.3s ease;
         }
 
         .scrolled-nav {
@@ -168,11 +168,11 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text);
-            font-weight: 600;
-            transition: color 0.3s;
-            position: relative;
-            padding: 10px 0;
+              font-weight: 600;
+              color: var(--primary);
+              position: relative;
+              padding: 10px 0;
+              transition: color 0.3s;
         }
 
         .nav-links a:after {
@@ -202,6 +202,13 @@
             width: 100%;
         }
 
+          /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--primary);
+    }
         .menu-toggle {
             display: none;
             font-size: 24px;
@@ -750,6 +757,7 @@
     </script>
 </body>
 </html>
+
 
 
 
