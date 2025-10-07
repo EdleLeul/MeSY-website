@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects - Media Smart Youth Ethiopia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: ''Poppins', sans-serif;
         }
 
         :root {
@@ -115,54 +114,157 @@
             transform: translateX(-50%);
         }
 
-        .page-hero {
-            position: relative;
-            background: url('projects-hero.jpg') center/cover no-repeat;
-            color: white;
-            text-align: center;
-            padding: 150px 20px;
-            margin-top: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+          header {
+      background: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header.scrolled {
+      padding: 5px 0;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      transition: padding 0.3s ease;
+    }
+
+    header.scrolled nav {
+      padding: 10px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .logo-text span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--primary);
+      position: relative;
+      padding: 10px 0;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover:after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+    }
+
+    .nav-links a.active:after {
+      width: 100%;
+    }
+
+          /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--primary);
+    }
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
         }
 
-        .page-hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                135deg,
-                rgba(93, 8, 63, 0.7),   /* plum */
-                rgba(245, 134, 52, 0.6), /* orange */
-                rgba(34, 153, 185, 0.6)  /* teal */
-            );
-            z-index: 0;
+.page-hero {
+        position: relative;
+        background: url('projects-hero.jpg') center/cover no-repeat; /* replace with your image */
+        color: white;
+        text-align: center;
+        padding: 150px 20px;
+        margin-top: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+            }
+
+.page-hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        135deg,
+        rgba(93, 8, 63, 0.7),   /* plum */
+        rgba(245, 134, 52, 0.6), /* orange */
+        rgba(34, 153, 185, 0.6)  /* teal */
+      );
+      z-index: 0;
         }
         
         .page-hero h1,
         .page-hero p {
-            position: relative;
-            z-index: 1; /* keep text above overlay */
+          position: relative;
+          z-index: 1; /* keep text above overlay */
         }
         
         .page-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: white;
+          font-size: 3rem;
+          margin-bottom: 20px;
+          color: white;
         }
         
         .page-hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-            opacity: 0.95;
+          font-size: 1.2rem;
+          max-width: 700px;
+          margin: 0 auto;
+          opacity: 0.95;
         }
+
 
         .projects-grid {
             display: grid;
@@ -287,229 +389,371 @@
             color: var(--text-light);
         }
 
+        footer {
+            background: #5D083F;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo, .footer-links, .footer-social {
+            flex: 1;
+        }
+
+        .footer-logo p {
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        .footer-links h3, .footer-social h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
         .page-content {
             min-height: 80vh;
         }
 
         @media (max-width: 768px) {
-            .page-hero {
-                padding: 120px 20px;
-                margin-top: 70px;
+            .menu-toggle {
+                display: block;
             }
 
-            .page-hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .project-stats {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: white;
                 flex-direction: column;
-                gap: 15px;
+                align-items: center;
+                padding: 20px 0;
+                transition: left 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             }
-        }
 
-        @media (max-width: 480px) {
-            .page-hero h1 {
-                font-size: 1.8rem;
+            .nav-links.active {
+                left: 0;
             }
-            
-            .project-content {
-                padding: 20px;
+
+            .nav-links li {
+                margin: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header will be automatically loaded here -->
-    <div id="header-placeholder"></div>
-
-    <section class="page-hero" style="background-image: url('projects-hero.jpg');">
+    <header id="header">
         <div class="container">
-            <h1>Our Projects</h1>
-            <p>Discover our comprehensive media literacy initiatives designed to empower Ethiopian youth</p>
+            <nav id="nav">
+                <div class="logo">
+                    <img src="logo.png" alt="MeSY Logo" style="height:40px;">
+                    <div class="logo-text">MeSY <span>Ethiopia</span></div>
+                </div>
+                <div class="menu-toggle">☰</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="projects.html" class="active">Projects</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <section class="projects">
-        <div class="container">
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="peace-matters.jpg" alt="Peace Matters Project">
-                    </div>
-                    <div class="project-content">
-                        <h3>Peace Matters</h3>
-                        <p>A collaborative initiative jointly implemented by four MeSY member organizations to integrate media literacy with conflict resolution and dialogue. This project demonstrates MIL's practical application beyond theory, using it as a direct tool to counter hate speech and promote peaceful coexistence among youth in conflict-affected communities.</p>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <div class="stat-number">4</div>
-                                <div class="stat-label">Partner Orgs</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">15+</div>
-                                <div class="stat-label">Communities</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">2,000+</div>
-                                <div class="stat-label">Youth Reached</div>
-                            </div>
-                        </div>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
+<section class="page-hero" style="background-image: url('projects-hero.jpg');">
+  <div class="overlay"></div>
+  <div class="container">
+    <h1>Our Projects</h1>
+    <p>Discover our comprehensive media literacy initiatives designed to empower Ethiopian youth</p>
+  </div>
+</section>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="youth-volunteering.jpg" alt="National Youth Volunteering Program">
-                    </div>
-                    <div class="project-content">
-                        <h3>National Youth Volunteering Program</h3>
-                        <p>MeSY members, in partnership with the Ministry of Peace and VSO, integrated a comprehensive media literacy module into the national curriculum. This systemic integration has equipped over 50,000 youth volunteers with essential critical thinking and digital literacy skills, massively amplifying our reach and embedding MIL into the fabric of national youth service.</p>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <div class="stat-number">50,000+</div>
-                                <div class="stat-label">Youth Volunteers</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">National</div>
-                                <div class="stat-label">Scale</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">Curriculum</div>
-                                <div class="stat-label">Integration</div>
-                            </div>
+        <section class="projects">
+            <div class="container">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="peace-matters.jpg" alt="Peace Matters Project">
                         </div>
-                        <a href="#" class="btn">Learn More</a>
+                        <div class="project-content">
+                            <h3>Peace Matters</h3>
+                            <p>A collaborative initiative jointly implemented by four MeSY member organizations to integrate media literacy with conflict resolution and dialogue. This project demonstrates MIL's practical application beyond theory, using it as a direct tool to counter hate speech and promote peaceful coexistence among youth in conflict-affected communities.</p>
+                            <div class="project-stats">
+                                <div class="stat">
+                                    <div class="stat-number">4</div>
+                                    <div class="stat-label">Partner Orgs</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">15+</div>
+                                    <div class="stat-label">Communities</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">2,000+</div>
+                                    <div class="stat-label">Youth Reached</div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn">Learn More</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="health-initiative.jpg" alt="AYSRH Initiative">
-                    </div>
-                    <div class="project-content">
-                        <h3>AYSRH Initiative</h3>
-                        <p>Advancing Media Literacy and Digital Solutions for Improved Adolescent and Youth Sexual and Reproductive Health, in partnership with Icog-ACC and YMCA. This initiative empowers young people to identify and counter health misinformation online, improving access to high-quality, reliable information and services through targeted social media campaigns and offline activities.</p>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <div class="stat-number">10,000+</div>
-                                <div class="stat-label">Youth Reached</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">Health</div>
-                                <div class="stat-label">Focus Area</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">Misinformation</div>
-                                <div class="stat-label">Countered</div>
-                            </div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="youth-volunteering.jpg" alt="National Youth Volunteering Program">
                         </div>
-                        <a href="#" class="btn">Learn More</a>
+                        <div class="project-content">
+                            <h3>National Youth Volunteering Program</h3>
+                            <p>MeSY members, in partnership with the Ministry of Peace and VSO, integrated a comprehensive media literacy module into the national curriculum. This systemic integration has equipped over 50,000 youth volunteers with essential critical thinking and digital literacy skills, massively amplifying our reach and embedding MIL into the fabric of national youth service.</p>
+                            <div class="project-stats">
+                                <div class="stat">
+                                    <div class="stat-number">50,000+</div>
+                                    <div class="stat-label">Youth Volunteers</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">National</div>
+                                    <div class="stat-label">Scale</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Curriculum</div>
+                                    <div class="stat-label">Integration</div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn">Learn More</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="gbv-toolkit.jpg" alt="TFGBV Toolkit">
-                    </div>
-                    <div class="project-content">
-                        <h3>TFGBV Toolkit</h3>
-                        <p>In collaboration with the Center for Information Resilience (CIR), we are co-creating a training toolkit to combat Technology-Facilitated Gender-Based Violence (TFGBV). This project is directly informed by CIR's groundbreaking research into the specific patterns and impacts of TFGBV within the Ethiopian context. It addresses a critical gap in youth protection online.</p>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <div class="stat-number">CIR</div>
-                                <div class="stat-label">Partnership</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">GBV</div>
-                                <div class="stat-label">Prevention</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">Online</div>
-                                <div class="stat-label">Safety</div>
-                            </div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="health-initiative.jpg" alt="AYSRH Initiative">
                         </div>
-                        <a href="#" class="btn">Learn More</a>
+                        <div class="project-content">
+                            <h3>AYSRH Initiative</h3>
+                            <p>Advancing Media Literacy and Digital Solutions for Improved Adolescent and Youth Sexual and Reproductive Health, in partnership with Icog-ACC and YMCA. This initiative empowers young people to identify and counter health misinformation online, improving access to high-quality, reliable information and services through targeted social media campaigns and offline activities.</p>
+                            <div class="project-stats">
+                                <div class="stat">
+                                    <div class="stat-number">10,000+</div>
+                                    <div class="stat-label">Youth Reached</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Health</div>
+                                    <div class="stat-label">Focus Area</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Misinformation</div>
+                                    <div class="stat-label">Countered</div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn">Learn More</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="youth-panel.jpg" alt="Youth Advisory Panel">
-                    </div>
-                    <div class="project-content">
-                        <h3>Youth Advisory Panel (YAP)</h3>
-                        <p>A formal body of young leaders who guide MeSY's strategy, program development, and innovation. The YAP ensures all MeSY initiatives are youth-relevant and youth-led. It serves as a model for genuine youth participation, providing members with high-level leadership experience, training, and a platform to shape the national conversation on MIL.</p>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <div class="stat-number">15</div>
-                                <div class="stat-label">Youth Leaders</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">Strategic</div>
-                                <div class="stat-label">Guidance</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">Leadership</div>
-                                <div class="stat-label">Development</div>
-                            </div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="gbv-toolkit.jpg" alt="TFGBV Toolkit">
                         </div>
-                        <a href="#" class="btn">Learn More</a>
+                        <div class="project-content">
+                            <h3>TFGBV Toolkit</h3>
+                            <p>In collaboration with the Center for Information Resilience (CIR), we are co-creating a training toolkit to combat Technology-Facilitated Gender-Based Violence (TFGBV). This project is directly informed by CIR's groundbreaking research into the specific patterns and impacts of TFGBV within the Ethiopian context. It addresses a critical gap in youth protection online.</p>
+                            <div class="project-stats">
+                                <div class="stat">
+                                    <div class="stat-number">CIR</div>
+                                    <div class="stat-label">Partnership</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">GBV</div>
+                                    <div class="stat-label">Prevention</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Online</div>
+                                    <div class="stat-label">Safety</div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn">Learn More</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="multilingual-resources.jpg" alt="Multilingual Resources">
-                    </div>
-                    <div class="project-content">
-                        <h3>Multilingual Resources</h3>
-                        <p>Developing and publishing our own original training materials in 4+ local languages to ensure accessibility and inclusivity. We consistently deliver MIL trainings to diverse youth groups across communities and have participated in global conversations by taking part in World Media Literacy Week, solidifying our role in the international MIL community.</p>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <div class="stat-number">4+</div>
-                                <div class="stat-label">Languages</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">Inclusive</div>
-                                <div class="stat-label">Approach</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">Global</div>
-                                <div class="stat-label">Participation</div>
-                            </div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="youth-panel.jpg" alt="Youth Advisory Panel">
                         </div>
-                        <a href="#" class="btn">Learn More</a>
+                        <div class="project-content">
+                            <h3>Youth Advisory Panel (YAP)</h3>
+                            <p>A formal body of young leaders who guide MeSY's strategy, program development, and innovation. The YAP ensures all MeSY initiatives are youth-relevant and youth-led. It serves as a model for genuine youth participation, providing members with high-level leadership experience, training, and a platform to shape the national conversation on MIL.</p>
+                            <div class="project-stats">
+                                <div class="stat">
+                                    <div class="stat-number">15</div>
+                                    <div class="stat-label">Youth Leaders</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Strategic</div>
+                                    <div class="stat-label">Guidance</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Leadership</div>
+                                    <div class="stat-label">Development</div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn">Learn More</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="multilingual-resources.jpg" alt="Multilingual Resources">
+                        </div>
+                        <div class="project-content">
+                            <h3>Multilingual Resources</h3>
+                            <p>Developing and publishing our own original training materials in 4+ local languages to ensure accessibility and inclusivity. We consistently deliver MIL trainings to diverse youth groups across communities and have participated in global conversations by taking part in World Media Literacy Week, solidifying our role in the international MIL community.</p>
+                            <div class="project-stats">
+                                <div class="stat">
+                                    <div class="stat-number">4+</div>
+                                    <div class="stat-label">Languages</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Inclusive</div>
+                                    <div class="stat-label">Approach</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-number">Global</div>
+                                    <div class="stat-label">Participation</div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn">Learn More</a>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-text" style="color: white;">MeSY <span style="color: #F58634;">Ethiopia</span></div>
+                    <p>Empowering young people with media literacy skills to navigate the digital world responsibly and critically.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Media Smart Youth Ethiopia. All rights reserved.</p>
+            </div>
         </div>
-    </section>
+    </footer>
 
-    <!-- Footer will be automatically loaded here -->
-    <div id="footer-placeholder"></div>
-
-    <!-- Include the combined components file -->
-    <script src="components.js"></script>
-
-    <!-- Additional page-specific JavaScript -->
     <script>
-        // Ensure components are loaded and initialized
-        document.addEventListener('DOMContentLoaded', function() {
-            // If components haven't loaded automatically, load them manually
-            if (!document.querySelector('header') || !document.querySelector('footer')) {
-                setTimeout(() => {
-                    if (window.ComponentLoader && window.ComponentLoader.loadComponents) {
-                        window.ComponentLoader.loadComponents();
-                    }
-                }, 100);
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            const nav = document.getElementById('nav');
+            
+            if(window.scrollY > 100) {
+                header.classList.add('header-scrolled');
+                nav.classList.add('scrolled-nav');
+            } else {
+                header.classList.remove('header-scrolled');
+                nav.classList.remove('scrolled-nav');
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
         });
     </script>
 </body>
 </html>
-
