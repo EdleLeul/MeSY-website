@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Header & Footer Component</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5D083F; /* Plum */
+      --secondary: #F58634;
+      --accent: #2299B9;
+      --light: #fefefe;
+      --dark: #222;
+      --text: #333;
+      --container-width: 1200px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--light);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Container System */
+    .container {
+      width: 90%;
+      max-width: var(--container-width);
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Header with Scroll Behavior */
+    header {
+      background: white;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      padding: 5px 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      transition: padding 0.3s ease;
+    }
+
+    header.scrolled nav {
+      padding: 8px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .logo-text span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 25px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      color: var(--primary);
+      padding: 5px 0;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+    }
+
+    .nav-links a.active:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--primary);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 50px 0 20px;
+      text-align: center;
+    }
+
+    .footer-content {
+      margin-bottom: 30px;
+    }
+
+    .footer-logo {
+      margin-bottom: 15px;
+    }
+
+    .footer-logo .logo-text {
+      color: white;
+    }
+
+    .footer-logo .logo-text span {
+      color: var(--secondary);
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 20px;
+      transition: transform 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2);
+      background: var(--secondary);
+    }
+
+    .copyright {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        transition: left 0.3s ease;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-links.active {
+        left: 0;
+      }
+
+      .nav-links li {
+        margin: 15px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-text {
+        font-size: 24px;
+      }
+    }
+
+    /* Demo content styles */
+    .demo-content {
+      min-height: 100vh;
+      padding-top: 100px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- This is the COMPONENT TEMPLATE - used for loading into other pages -->
+  <template id="header-footer-template">
+    <header id="header">
+      <div class="container">
+        <nav>
+          <div class="logo">
+            <img src="logo.png" alt="MeSY Logo">
+            <div class="logo-text">MeSY <span>Ethiopia</span></div>
+          </div>
+          <div class="menu-toggle">☰</div>
+          <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="members.html">Members</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="logo-text">MeSY <span>Ethiopia</span></div>
+          </div>
+          <p>Empowering Ethiopia's youth with creativity, critical thinking, and media smarts</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>© 2025 Media Smart Youth Ethiopia</p>
+        </div>
+      </div>
+    </footer>
+  </template>
+
+  <!-- DEMO CONTENT - This shows how the components work -->
+  <div class="demo-content">
+    <h1>Header & Footer Components</h1>
+    <p>This file contains both the components and the JavaScript to load them.</p>
+    <p>Save this as <strong>components.html</strong> and use the script below in your pages.</p>
+  </div>
+
+  <script>
+    // COMPONENT LOADER SCRIPT - Include this in all your HTML files
+    function loadComponents() {
+      // Create header and footer placeholders if they don't exist
+      if (!document.getElementById('header-placeholder')) {
+        const headerPlaceholder = document.createElement('div');
+        headerPlaceholder.id = 'header-placeholder';
+        document.body.insertBefore(headerPlaceholder, document.body.firstChild);
+      }
+      
+      if (!document.getElementById('footer-placeholder')) {
+        const footerPlaceholder = document.createElement('div');
+        footerPlaceholder.id = 'footer-placeholder';
+        document.body.appendChild(footerPlaceholder);
+      }
+
+      // Get the template
+      const template = document.getElementById('header-footer-template');
+      if (template) {
+        const clone = template.content.cloneNode(true);
+        
+        // Load header
+        const headerElement = clone.querySelector('header');
+        if (headerElement && document.getElementById('header-placeholder')) {
+          document.getElementById('header-placeholder').innerHTML = '';
+          document.getElementById('header-placeholder').appendChild(headerElement);
+        }
+        
+        // Load footer
+        const footerElement = clone.querySelector('footer');
+        if (footerElement && document.getElementById('footer-placeholder')) {
+          document.getElementById('footer-placeholder').innerHTML = '';
+          document.getElementById('footer-placeholder').appendChild(footerElement);
+        }
+        
+        // Initialize the components
+        initializeComponents();
+      }
+    }
+
+    // Initialize components functionality
+    function initializeComponents() {
+      // Mobile menu toggle
+      const menuToggle = document.querySelector('.menu-toggle');
+      if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+          document.querySelector('.nav-links').classList.toggle('active');
+        });
+      }
+
+      // Header scroll behavior
+      window.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        if (header && window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else if (header) {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // Active nav highlighting
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.nav-links a');
+      
+      navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          document.querySelector('.nav-links').classList.remove('active');
+        });
+      });
+    }
+
+    // Auto-load components when this file is included
+    document.addEventListener('DOMContentLoaded', loadComponents);
+
+    // Export functions for manual use
+    window.ComponentLoader = {
+      loadComponents,
+      initializeComponents
+    };
+  </script>
+</body>
+</html>
