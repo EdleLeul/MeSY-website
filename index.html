@@ -39,100 +39,6 @@
       padding: 0 15px;
     }
 
-    /* Header with Scroll Behavior */
-    header {
-      background: white;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      transition: all 0.3s ease;
-    }
-
-    header.scrolled {
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-      padding: 5px 0;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-      transition: padding 0.3s ease;
-    }
-
-    header.scrolled nav {
-      padding: 8px 0;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo img {
-      height: 40px;
-      width: auto;
-    }
-
-    .logo-text {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--primary);
-    }
-
-    .logo-text span {
-      color: var(--accent);
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-    }
-
-    .nav-links li {
-      margin-left: 25px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      font-weight: 600;
-      position: relative;
-      color: var(--primary);
-      padding: 5px 0;
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-    }
-
-    .nav-links a.active {
-      color: var(--accent);
-    }
-
-    .nav-links a.active:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--accent);
-      border-radius: 2px;
-    }
-
-    /* Mobile Menu Toggle */
-    .menu-toggle {
-      display: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--primary);
-    }
-
     /* Hero Section */
     .hero {
       background: url('hero-bg.jpg') center/cover no-repeat;
@@ -160,11 +66,11 @@
     }
 
     .hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  transform: translateX(20%); /* move text further right */
-}
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      transform: translateX(20%); /* move text further right */
+    }
 
     .hero h1 {
       font-size: 4rem;
@@ -254,17 +160,17 @@
     }
 
    .about-image {
-  flex: 1;
-  min-width: 300px;
-  text-align: center;
-}
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+    }
 
-.about-image img {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
+    .about-image img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
 
     /* News Section */
     .news-grid {
@@ -406,61 +312,6 @@
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
     }
 
-    /* Footer */
-    footer {
-      background: var(--primary);
-      color: white;
-      padding: 50px 0 20px;
-      text-align: center;
-    }
-
-    .footer-content {
-      margin-bottom: 30px;
-    }
-
-    .footer-logo {
-      margin-bottom: 15px;
-    }
-
-    .footer-logo .logo-text {
-      color: white;
-    }
-
-    .footer-logo .logo-text span {
-      color: var(--secondary);
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .social-icons a {
-      color: white;
-      font-size: 20px;
-      transition: transform 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .social-icons a:hover {
-      transform: scale(1.2);
-      background: var(--secondary);
-    }
-
-    .copyright {
-      margin-top: 20px;
-      font-size: 14px;
-      opacity: 0.8;
-    }
-
     /* Responsive Design */
     @media (max-width: 992px) {
       .hero h1 {
@@ -477,31 +328,6 @@
     }
 
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 70px;
-        left: -100%;
-        width: 100%;
-        background: white;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        transition: left 0.3s ease;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-      }
-
-      .nav-links.active {
-        left: 0;
-      }
-
-      .nav-links li {
-        margin: 15px 0;
-      }
-
       .hero {
         padding: 150px 20px 80px;
       }
@@ -540,25 +366,8 @@
   </style>
 </head>
 <body>
-  <header id="header">
-    <div class="container">
-      <nav>
-        <div class="logo">
-          <img src="logo.png" alt="MeSY Logo">
-          <div class="logo-text">MeSY <span>Ethiopia</span></div>
-        </div>
-        <div class="menu-toggle">☰</div>
-        <ul class="nav-links">
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="members.html">Members</a></li>
-          <li><a href="resources.html">Resources</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <!-- Header will be automatically loaded here -->
+  <div id="header-placeholder"></div>
 
   <section class="hero">
     <div class="container">
@@ -585,8 +394,7 @@
           <a href="about.html" class="btn" style="margin-top: 20px;">Read More</a>
         </div>
         <div class="about-image">
-                     <img src="about.jpg" alt="About Media Smart Youth Ethiopia">
-          </div>
+          <img src="about.jpg" alt="About Media Smart Youth Ethiopia">
         </div>
       </div>
     </div>
@@ -661,43 +469,14 @@
     </div>
   </section>
 
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-logo">
-          <div class="logo-text">MeSY <span>Ethiopia</span></div>
-        </div>
-        <p>Empowering Ethiopia's youth with creativity, critical thinking, and media smarts</p>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-      <div class="copyright">
-        <p>© 2025 Media Smart Youth Ethiopia</p>
-      </div>
-    </div>
-  </footer>
+  <!-- Footer will be automatically loaded here -->
+  <div id="footer-placeholder"></div>
 
+  <!-- Include the combined components file -->
+  <script src="components.html"></script>
+
+  <!-- Additional page-specific JavaScript -->
   <script>
-    // Mobile menu toggle
-    document.querySelector('.menu-toggle').addEventListener('click', function() {
-      document.querySelector('.nav-links').classList.toggle('active');
-    });
-
-    // Header scroll behavior
-    window.addEventListener('scroll', function() {
-      const header = document.getElementById('header');
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-
     // Scroll reveal animation for project cards
     function revealOnScroll() {
       const projectCards = document.querySelectorAll('.project-card');
@@ -718,19 +497,16 @@
     // Check on scroll
     window.addEventListener('scroll', revealOnScroll);
 
-    // Active nav highlighting
+    // Ensure components are loaded and initialized
     document.addEventListener('DOMContentLoaded', function() {
-      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-      const navLinks = document.querySelectorAll('.nav-links a');
-      
-      navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
+      // If components haven't loaded automatically, load them manually
+      if (!document.querySelector('header') || !document.querySelector('footer')) {
+        setTimeout(() => {
+          if (window.ComponentLoader && window.ComponentLoader.loadComponents) {
+            window.ComponentLoader.loadComponents();
+          }
+        }, 100);
+      }
     });
   </script>
 </body>
