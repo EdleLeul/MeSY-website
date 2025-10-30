@@ -134,83 +134,64 @@
     }
 
     /* Hero Section */
-    .hero {
-      background: url('hero-bg.jpg') center/cover no-repeat;
-      color: white;
-      text-align: center;
-      min-height: 100vh;
-      padding: 180px 20px 100px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(93, 8, 63, 0.85), rgba(93, 8, 63, 0.6), rgba(34, 153, 185, 0.75));
-      z-index: 0;
-    }
-
-    .hero-content {
+.hero {
   position: relative;
-  z-index: 1;
-  max-width: 800px;
-  transform: translateX(20%); /* move text further right */
+  width: 100%;
+  height: 100vh; /* full screen height */
+  overflow: hidden;
 }
 
-    .hero h1 {
-      font-size: 4rem;
-      font-weight: 800;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0; /* background layer */
+}
 
-    .hero p {
-      font-size: 1.3rem;
-      opacity: 0.95;
-      margin-bottom: 40px;
-    }
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* push content to bottom */
+  align-items: center; /* center horizontally */
+  padding-bottom: 80px; /* distance from bottom */
+  text-align: center;
+}
 
-    .btn {
-      background: var(--secondary);
-      color: white;
-      padding: 14px 30px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s;
-      display: inline-block;
-    }
 
-    .btn:hover {
-      transform: scale(1.05);
-      background: #e0762a;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
+.btn {
+  background: var(--secondary);
+  color: white;
+  padding: 14px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  display: inline-block;
+}
 
-    .btn-accent {
-      background: var(--accent);
-    }
+.btn:hover {
+  transform: scale(1.05);
+  background: #e0762a;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
 
-    .btn-accent:hover {
-      background: #1d87a5;
-    }
+.btn-accent {
+  background: var(--accent);
+}
 
-    .hero-btns {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+.btn-accent:hover {
+  background: #1d87a5;
+}
+
+
 
     /* Section Styles */
     section {
@@ -253,18 +234,23 @@
       min-width: 300px;
     }
 
-   .about-video {
+  .about-image {
   flex: 1;
   min-width: 300px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.about-video mp4 {
-  width: 100%;
-  max-width: 500px;
+.about-image img {
+  width: 90%;
+  max-width: 500px; /* keeps it from being too large on big screens */
+  height: auto;
   border-radius: 15px;
+  object-fit: cover;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
+
 
     /* News Section */
     .news-grid {
@@ -561,17 +547,13 @@
   </header>
 
   <section class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <h1>Media Smart Youth Ethiopia</h1>
-        <p>Empowered and Responsible - Building a generation immune to misinformation</p>
-        <div class="hero-btns">
-          <a href="about.html" class="btn">Learn More</a>
-          <a href="contact.html" class="btn btn-accent">Join Us</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="about_us.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+ </section>
+
 
   <section class="about">
     <div class="container">
@@ -584,11 +566,9 @@
           <p>In Ethiopia, a nation with a median age of 19.5, the recent expansion of digital media has created both opportunities and challenges. We empower youth to be smart, critical, and positive contributors in the digital space.</p>
           <a href="about.html" class="btn" style="margin-top: 20px;">Read More</a>
         </div>
-        <div class="about-video">
-                     <video autoplay muted loop playsinline style="width:100%; border-radius:10px;">
-  <source src="about_video.mp4" type="video/mp4">
-Media Smart Youth Ethiopia
-</video>
+        <div class="about-image">
+                     <img src="hero-bg.jpg" alt="About us">
+  
           </div>
         </div>
       </div>
@@ -738,4 +718,3 @@ Media Smart Youth Ethiopia
   </script>
 </body>
 </html>
-
