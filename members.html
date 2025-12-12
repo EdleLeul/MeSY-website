@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Members - Media Smart Youth Ethiopia</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -22,12 +22,12 @@
       --text: #333;
     }
 
-  body {
+    body {
       background: var(--light);
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
-      }
+    }
 
     .container {
       width: 90%;
@@ -36,7 +36,7 @@
     }
 
     /* HEADER */
-      header {
+    header {
       background: white;
       position: fixed;
       top: 0;
@@ -46,7 +46,7 @@
       transition: all 0.3s ease;
     }
 
-      header.scrolled {
+    header.scrolled {
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
       padding: 5px 0;
     }
@@ -120,6 +120,7 @@
       background: var(--accent);
       border-radius: 2px;
     }
+
     /* HERO */
     .page-hero {
       text-align: center;
@@ -144,7 +145,7 @@
 
     /* FOUNDING ORGANIZATIONS */
     .founders {
-      padding: 60px 0;
+      padding: 80px 0;
     }
 
     .founders .section-title {
@@ -152,164 +153,236 @@
       margin-bottom: 50px;
     }
 
-.founders-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 40px;
-  justify-items: center;
-  align-items: center;
-  text-align: center;
-}
+    .founders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 40px;
+      justify-items: center;
+    }
 
-.founder-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease;
-}
+    .founder-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-.founder-card img {
-  width: 120px;         /* consistent logo size */
-  height: 100px;
-  object-fit: contain;  /* keeps logo proportions */
-  margin-bottom: 10px;
-  transition: transform 0.3s ease;
-}
+    .founder-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    }
 
-/* Organization name */
-.founder-card h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--primary);
-  text-align: center;
-  margin: 0;
-}
+    .founder-card img {
+      width: 120px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
 
-/* Hover animation */
-.founder-card:hover img {
-  transform: scale(1.05);
-}
-.founder-card:hover h3 {
-  color: var(--accent);
-}
+    .founder-card:hover img {
+      transform: scale(1.05);
+    }
 
+    .founder-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 15px;
+      line-height: 1.4;
+      min-height: 3.5rem;
+      display: flex;
+      align-items: center;
+    }
 
+    .founder-card p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 25px;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
 
+    .read-more-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: 2px solid var(--accent);
+      margin-top: auto;
+      width: fit-content;
+    }
+
+    .read-more-btn:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .read-more-btn i {
+      margin-left: 8px;
+      font-size: 0.9rem;
+    }
 
     /* FOOTER */
     footer {
-            background: #5D083F;
-            color: white;
-            padding: 50px 0 20px;
-        }
+      background: #5D083F;
+      color: white;
+      padding: 50px 0 20px;
+    }
 
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
 
-        .footer-logo, .footer-links, .footer-social {
-            flex: 1;
-        }
+    .footer-logo, .footer-links, .footer-social {
+      flex: 1;
+    }
 
-        .footer-logo p {
-            margin-top: 15px;
-            opacity: 0.8;
-        }
+    .footer-logo p {
+      margin-top: 15px;
+      opacity: 0.8;
+    }
 
-        .footer-links h3, .footer-social h3 {
-            color: white;
-            margin-bottom: 20px;
-        }
+    .footer-links h3, .footer-social h3 {
+      color: white;
+      margin-bottom: 20px;
+    }
 
-        .footer-links ul {
-            list-style: none;
-        }
+    .footer-links ul {
+      list-style: none;
+    }
 
-        .footer-links li {
-            margin-bottom: 10px;
-        }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
 
-        .footer-links a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
 
-        .footer-links a:hover {
-            color: var(--secondary);
-        }
+    .footer-links a:hover {
+      color: var(--secondary);
+    }
 
-        .social-icons {
-            display: flex;
-            gap: 15px;
-        }
+    .social-icons {
+      display: flex;
+      gap: 15px;
+    }
 
-        .social-icons a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            font-size: 18px;
-            transition: all 0.3s;
-        }
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      font-size: 18px;
+      transition: all 0.3s;
+    }
 
-        .social-icons a:hover {
-            background: var(--secondary);
-            transform: translateY(-3px);
-        }
+    .social-icons a:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+    }
 
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 14px;
-            opacity: 0.7;
-        }
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 14px;
+      opacity: 0.7;
+    }
 
-        .page-content {
-            min-height: 80vh;
-        }
+    .page-content {
+      min-height: 80vh;
+    }
 
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .founders-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+      }
+    }
 
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                width: 100%;
-                background: white;
-                flex-direction: column;
-                align-items: center;
-                padding: 20px 0;
-                transition: left 0.3s ease;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            }
+    @media (max-width: 768px) {
+      .founders-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+      }
+      
+      .founder-card {
+        padding: 25px 20px;
+      }
+      
+      .founder-card h3 {
+        font-size: 1.1rem;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        transition: left 0.3s ease;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      }
 
-            .nav-links.active {
-                left: 0;
-            }
+      .nav-links.active {
+        left: 0;
+      }
 
-            .nav-links li {
-                margin: 15px 0;
-                width: 100%;
-                text-align: center;
-            }
+      .nav-links li {
+        margin: 15px 0;
+        width: 100%;
+        text-align: center;
+      }
 
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-            }
-        }
+      .footer-content {
+        flex-direction: column;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .founders-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .page-hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .page-hero p {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 
@@ -345,120 +418,143 @@
   <section class="founders">
     <div class="container">
       <div class="founders-grid">
-        <!-- 12 Colorful Cards -->
+        <!-- Organization 1 -->
         <div class="founder-card">
-          <img src="ECADO.png" alt="Founder 1">
+          <img src="ECADO.png" alt="Eshet Children and Youth Development Organization">
           <h3>Eshet Children and Youth Development Organization</h3>
-          <p>Eshet Children and Youth Development Organization (ECYDO) is a non-governmental, non-profit organisation with a goal of improving the opportunities for children and young people. ECYDO cares about the social and economic development of the youth in Ethiopia, and believes that young people are the best hope and investing in them is an investment for the future. ECYDO was initially established as a Theatre and Music Club in 1987 employing the artistic talents of street vendors and other vulnerable children to convey messages on HIV/AIDS. Since then, ECYDO has passed through a range of organisational development processes.</p>
+          <p>ECYDO is a non-governmental organization dedicated to improving opportunities for children and youth. Originally established as a Theatre and Music Club in 1987, it now focuses on social and economic development for young people.</p>
+          <a href="https://example.com/ecydo" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a>
         </div>
-         <div class="founder-card">
-          <img src="iie.png" alt="Founder 3">
+        
+        <!-- Organization 2 -->
+        <div class="founder-card">
+          <img src="iie.png" alt="Institute of International Education - Ethiopia">
           <h3>Institute of International Education - Ethiopia</h3>
-          <p>The Institute of International Education (IIE) has had a presence in Sub-Saharan Africa that spans over 30 years, and implements a range of programs to build leadership capacity and expand access to higher education in the region. With its office in Addis Ababa, Ethiopia, and extensive history working in the region, IIE has a strong set of programs in leadership development, organizational effectiveness, and higher education scholarship administration. IIE has been a pioneer in providing both short- and long-term training to Africans. From 1979-2001, the South Africa Education Program opened the doors for black South Africans to obtain the knowledge, skills and professional credentials required to succeed in a post-apartheid government.</p>
+          <p>IIE has over 30 years of experience in Sub-Saharan Africa, implementing programs in leadership development, organizational effectiveness, and higher education scholarship administration to build capacity across the region.</p>
+          <a href="https://example.com/iie-ethiopia" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a>
         </div>
-          <div class="founder-card">
-          <img src="MahibereHiwot.png" alt="Founder 5">
+        
+        <!-- Organization 3 -->
+        <div class="founder-card">
+          <img src="MahibereHiwot.png" alt="MahibereHiwot for Social Development">
           <h3>MahibereHiwot for Social Development</h3>
-          <p>Mahibere Hiwot for Social Development (MSD) was established in October 1999 by few volunteer youth who were concerned and hence aspired to contribute their part in the national effort to combat the spread of the HIV epidemic. It is this strong motive of the youth accompanied by their high levels of  commitment that enabled MSD to register as a formal association in March 2002 by the Gondar Administration Justice Department. Over the course of time MSD has primarily been involved in HIV prevention, care & support and Reproductive Health programs.</p>
+          <p>MSD was established by volunteer youth in 1999 to combat HIV/AIDS. Registered in 2002, it has primarily focused on HIV prevention, care & support, and reproductive health programs to serve communities in need.</p>
+          <a href="https://example.com/mahiberehiwot" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a>
         </div>
+        
+        <!-- Organization 4 -->
         <div class="founder-card">
-          <img src="Hiwot.png" alt="Founder 6">
+          <img src="Hiwot.png" alt="Hiwot Ethiopia">
           <h3>Hiwot Ethiopia</h3>
-          <p>Hiwot Ethiopia was established in 1995 as a youth club by fourteen young people concerned about the devastating effects of HIV/AIDS, SRH Hazards and wished to make a positive contribution to combating the spread of the disease, particularly among children and young people. From these small beginnings, it grew and developed into an association, then a registered NGO, and is now re-registered as a Civil Society Organizations/charity to operate in Ethiopia under the registration # 0345. Through its 25 years of experiences, Hiwot is delivering a range of multi-year program with a variety of local and international partners in Addis Ababa and Amhara Regiona. .</p>
+          <p>Founded in 1995 as a youth club, Hiwot Ethiopia has grown into a registered CSO delivering multi-year programs focused on HIV/AIDS prevention and sexual reproductive health for children and young people across Ethiopia.</p>
+          <a href="https://example.com/hiwot-ethiopia" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a>
         </div>
-          <div class="founder-card">
-          <img src="SYHLA.png" alt="Founder 8">
+        
+        <!-- Organization 5 -->
+        <div class="founder-card">
+          <img src="SYHLA.png" alt="Save Your Holy Land Association">
           <h3>Save Your Holy Land Association</h3>
-          <p>SYHLA has three major Areas of Intervention. These are Health, Education and Tourism and Environment. Geographic Areas of Intervention and current Projects. Starting from its inception in 2001. Save your Holy Land Association has been implementing various Projects in Lalibela and then after scaling up the RH, and HIV intervention to other nearby districts of north Wollo Zones. Currently SYHLA intervene in eight districts of North Wollo Zone, Amhara Region and we are planning to expand our projects to South Wollo and Wag Humra Zones and Regional Liaison office in Bahirdar.</p>
+          <p>SYHLA focuses on health, education, tourism and environmental interventions. Since 2001, it has implemented various projects in Lalibela and expanded to multiple districts in North Wollo Zone, Amhara Region.</p>
+          <a href="https://example.com/syhla" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a>
         </div>
-         <div class="founder-card">
-          <img src="vso.png" alt="Founder 10">
+        
+        <!-- Organization 6 -->
+        <div class="founder-card">
+          <img src="vso.png" alt="Voluntary Services Overseas">
           <h3>Voluntary Services Overseas</h3>
-          <p>VSO is a not-for-profit international development organization charity with a vision for "a fair world for everyone" and a mission to "create lasting change through volunteering". VSO delivers development impacts through a blended volunteer model consisting of international, national, and community volunteers working together to develop the systems and conditions for positive social change. In 2022–23, VSO worked in 35 countries in Africa and Asia.</p>
+          <p>VSO is an international development charity with a vision for "a fair world for everyone." They create lasting change through volunteering, working in 35 countries across Africa and Asia with international, national, and community volunteers.</p>
+          <a href="https://example.com/vso" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a>
         </div>
+        
+        <!-- Organization 7 -->
         <div class="founder-card">
-          <img src="YMACA.png" alt="Founder 11">
+          <img src="YMACA.png" alt="Young Christian Men's Association">
           <h3>Young Christian Men's Association</h3>
-          <p>YMCA Ethiopia is a pioneer youth-focused development organization in Ethiopia, established in 1951 with a vision for empowering young people for the renaissance of Africa. As YMCA Ethiopia is affiliated with the World Wide YMCA and African Alliance of YMCA, it shares the founding principles of   Body – Mind – Sprit which is symbolized by the time-honored triangle and denotes a holistic youth development approach. YMCA Ethiopia is a non-religious and non-political organization, re-registered as Ethiopian Residents Charity in 2009.</p>
+          <p>YMCA Ethiopia, established in 1951, is a pioneer youth-focused development organization with a vision for empowering young people. Affiliated with the worldwide YMCA movement, it follows holistic youth development principles.</p>
+          <a href="https://example.com/ymca-ethiopia" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a>
         </div>
+        
+        <!-- Organization 8 -->
         <div class="founder-card">
-          <img src="NBCDC.png" alt="Founder 12">
+          <img src="NBCDC.png" alt="New Bright Community Development Center">
           <h3>New Bright Community Development Center</h3>
-          <p>New Bright Community Development Center is dedicated to creating positive and sustainable change within our communities. Through empowerment programs focused on education, life skills, and community development, we work to uplift vulnerable groups and inspire a future built on opportunity, dignity, and self-reliance.</p>
+          <p>This organization is dedicated to creating positive, sustainable change through empowerment programs focused on education, life skills, and community development to uplift vulnerable groups and inspire self-reliance.</p>
+          <a href="https://example.com/nbcdc" target="_blank" class="read-more-btn">Read More <i class="fas fa-external-link-alt"></i></a>
         </div>
       </div>
     </div>
   </section>
 
   <footer>
-   <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="logo-text" style="color: white;">MeSY <span style="color: #F58634;">Ethiopia</span></div>
-                    <p>Empowering young people with media literacy skills to navigate the digital world responsibly and critically.</p>
-                </div>
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                        <li><a href="resources.html">Resources</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-social">
-                    <h3>Follow Us</h3>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Media Smart Youth Ethiopia. All rights reserved.</p>
-            </div>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <div class="logo-text" style="color: white;">MeSY <span style="color: #F58634;">Ethiopia</span></div>
+          <p>Empowering young people with media literacy skills to navigate the digital world responsibly and critically.</p>
         </div>
-    </footer>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <h3>Follow Us</h3>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Media Smart Youth Ethiopia. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
-    <script>
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('header');
+      if(window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
 
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            const nav = document.getElementById('nav');
-            
-            if(window.scrollY > 100) {
-                header.classList.add('header-scrolled');
-                nav.classList.add('scrolled-nav');
-            } else {
-                header.classList.remove('header-scrolled');
-                nav.classList.remove('scrolled-nav');
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            navLinks.forEach(link => {
-                const linkHref = link.getAttribute('href');
-                if (linkHref === currentPage) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        });
-    </script>
+    // Set active navigation link
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.nav-links a');
+      
+      navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+      
+      // Smooth scroll to top when clicking logo
+      document.querySelector('.logo a').addEventListener('click', function(e) {
+        if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+          e.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
- 
-
-
