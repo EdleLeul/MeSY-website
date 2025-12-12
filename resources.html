@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resources - Media Smart Youth Ethiopia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Same CSS as index.html - copy the entire style section from index.html */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         :root {
@@ -78,7 +78,7 @@
             color: white;
             padding: 12px 30px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             cursor: pointer;
             text-decoration: none;
             font-size: 16px;
@@ -115,31 +115,32 @@
             transform: translateX(-50%);
         }
 
+        /* HEADER - Matching members page */
         header {
             background: white;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
             position: fixed;
-            width: 100%;
             top: 0;
+            left: 0;
+            width: 100%;
             z-index: 1000;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .header-scrolled {
-            padding: 10px 0;
+        header.scrolled {
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 5px 0;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            transition: all 0.3s;
+            padding: 15px 0;
+            transition: padding 0.3s ease;
         }
 
-        .scrolled-nav {
-            padding: 10px 0;
+        header.scrolled nav {
+            padding: 8px 0;
         }
 
         .logo {
@@ -148,8 +149,8 @@
         }
 
         .logo-text {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 28px;
+            font-weight: 800;
             color: var(--primary);
         }
 
@@ -168,38 +169,30 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text);
             font-weight: 600;
-            transition: color 0.3s;
             position: relative;
-            padding: 10px 0;
-        }
-
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--secondary);
-            transition: width 0.3s;
+            color: var(--primary);
+            padding: 5px 0;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a:hover:after {
-            width: 100%;
+            color: var(--accent);
         }
 
         .nav-links a.active {
-            color: var(--primary);
+            color: var(--accent);
         }
 
         .nav-links a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
         }
 
         .menu-toggle {
@@ -209,11 +202,12 @@
             color: var(--primary);
         }
 
+        /* HERO - Matching members page */
         .page-hero {
+            text-align: center;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            text-align: center;
-            padding: 150px 0 80px;
+            padding: 150px 20px 100px;
             margin-top: 80px;
         }
 
@@ -230,6 +224,7 @@
             opacity: 0.9;
         }
 
+        /* RESOURCES CONTENT */
         .resources-content {
             display: flex;
             gap: 50px;
@@ -273,8 +268,8 @@
             flex: 1;
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         }
 
         .download-section {
@@ -291,9 +286,14 @@
         .download-card {
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .download-card:hover {
+            transform: translateY(-8px);
         }
 
         .download-card i {
@@ -302,6 +302,7 @@
             margin-bottom: 20px;
         }
 
+        /* FOOTER - Matching members page */
         footer {
             background: #5D083F;
             color: white;
@@ -381,6 +382,23 @@
             min-height: 80vh;
         }
 
+        /* Language tags styling */
+        .language-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .language-tag:hover {
+            background: #1d87a5;
+            cursor: pointer;
+        }
+
         @media (max-width: 992px) {
             .resources-content {
                 flex-direction: column;
@@ -398,14 +416,14 @@
 
             .nav-links {
                 position: fixed;
-                top: 80px;
+                top: 70px;
                 left: -100%;
                 width: 100%;
                 background: white;
                 flex-direction: column;
                 align-items: center;
                 padding: 20px 0;
-                transition: left 0.3s;
+                transition: left 0.3s ease;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             }
 
@@ -423,6 +441,14 @@
                 flex-direction: column;
                 gap: 30px;
             }
+            
+            .page-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .page-hero p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -439,7 +465,7 @@
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="projects.html">Projects</a></li>
                     <li><a href="members.html">Members</a></li>
                     <li><a href="resources.html" class="active">Resources</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -480,8 +506,12 @@
                     <div class="resources-visual">
                         <h3>Download Our Latest Materials</h3>
                         <p>Access our media literacy resources available in multiple local languages to ensure accessibility and inclusivity across Ethiopia.</p>
-                        <div style="height: 200px; background: #f0f0f0; border-radius: 5px; display: flex; align-items: center; justify-content: center; margin-top: 20px; color: #777;">
-                            Resource Preview/Download Area
+                        <div style="height: 200px; background: #f0f0f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-top: 20px; color: #777; background: linear-gradient(135deg, #f5f5f5, #e0e0e0);">
+                            <i class="fas fa-download" style="font-size: 48px; color: var(--accent); margin-right: 15px;"></i>
+                            <div style="text-align: left;">
+                                <div style="font-weight: 600; color: var(--primary);">Latest Resource Available</div>
+                                <div>Media Literacy Handbook - Version 2.0</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -525,11 +555,13 @@
                     <div class="resources-visual">
                         <h3>Available in Local Languages</h3>
                         <p>We develop and publish our original training materials in 4+ local languages to ensure accessibility and inclusivity across Ethiopia's diverse communities.</p>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <span class="btn" style="padding: 8px 15px;">Amharic</span>
-                            <span class="btn" style="padding: 8px 15px;">Oromo</span>
-                            <span class="btn" style="padding: 8px 15px;">Tigrinya</span>
-                            <span class="btn" style="padding: 8px 15px;">Somali</span>
+                        <div style="margin-top: 20px;">
+                            <span class="language-tag">Amharic</span>
+                            <span class="language-tag">Oromo</span>
+                            <span class="language-tag">Tigrinya</span>
+                            <span class="language-tag">Somali</span>
+                            <span class="language-tag">Afar</span>
+                            <span class="language-tag">English</span>
                         </div>
                     </div>
                     <div class="resources-list">
@@ -560,7 +592,7 @@
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About Us</a></li>
-                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="projects.html">Projects</a></li>
                         <li><a href="resources.html">Resources</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
@@ -589,14 +621,11 @@
 
         window.addEventListener('scroll', function() {
             const header = document.getElementById('header');
-            const nav = document.getElementById('nav');
             
             if(window.scrollY > 100) {
-                header.classList.add('header-scrolled');
-                nav.classList.add('scrolled-nav');
+                header.classList.add('scrolled');
             } else {
-                header.classList.remove('header-scrolled');
-                nav.classList.remove('scrolled-nav');
+                header.classList.remove('scrolled');
             }
         });
 
@@ -612,9 +641,18 @@
                     link.classList.remove('active');
                 }
             });
+            
+            // Smooth scroll to top when clicking logo
+            document.querySelector('.logo a').addEventListener('click', function(e) {
+                if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
     </script>
 </body>
-
 </html>
-
