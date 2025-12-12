@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Media Smart Youth Ethiopia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Same CSS as index.html - copy the entire style section from index.html */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         :root {
@@ -78,7 +78,7 @@
             color: white;
             padding: 12px 30px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             cursor: pointer;
             text-decoration: none;
             font-size: 16px;
@@ -115,31 +115,32 @@
             transform: translateX(-50%);
         }
 
+        /* HEADER - Matching members page */
         header {
             background: white;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
             position: fixed;
-            width: 100%;
             top: 0;
+            left: 0;
+            width: 100%;
             z-index: 1000;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .header-scrolled {
-            padding: 10px 0;
+        header.scrolled {
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 5px 0;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            transition: all 0.3s;
+            padding: 15px 0;
+            transition: padding 0.3s ease;
         }
 
-        .scrolled-nav {
-            padding: 10px 0;
+        header.scrolled nav {
+            padding: 8px 0;
         }
 
         .logo {
@@ -148,8 +149,8 @@
         }
 
         .logo-text {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 28px;
+            font-weight: 800;
             color: var(--primary);
         }
 
@@ -168,38 +169,30 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text);
             font-weight: 600;
-            transition: color 0.3s;
             position: relative;
-            padding: 10px 0;
-        }
-
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--secondary);
-            transition: width 0.3s;
+            color: var(--primary);
+            padding: 5px 0;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a:hover:after {
-            width: 100%;
+            color: var(--accent);
         }
 
         .nav-links a.active {
-            color: var(--primary);
+            color: var(--accent);
         }
 
         .nav-links a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
         }
 
         .menu-toggle {
@@ -209,11 +202,12 @@
             color: var(--primary);
         }
 
+        /* HERO - Matching members page */
         .page-hero {
+            text-align: center;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            text-align: center;
-            padding: 150px 0 80px;
+            padding: 150px 20px 100px;
             margin-top: 80px;
         }
 
@@ -230,13 +224,13 @@
             opacity: 0.9;
         }
 
+        /* CONTACT SECTION */
         .contact {
-            background: var(--primary);
-            color: white;
+            background: white;
         }
 
         .contact h2 {
-            color: white;
+            color: var(--primary);
         }
 
         .contact h2:after {
@@ -246,16 +240,28 @@
         .contact-container {
             display: flex;
             gap: 50px;
+            align-items: flex-start;
         }
 
         .contact-info, .contact-form {
             flex: 1;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-info h3, .contact-form h3 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
         }
 
         .contact-info p {
             margin-bottom: 20px;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            line-height: 1.8;
         }
 
         .contact-info i {
@@ -263,6 +269,7 @@
             color: var(--secondary);
             font-size: 20px;
             width: 25px;
+            margin-top: 3px;
         }
 
         .form-group {
@@ -273,20 +280,23 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
+            color: var(--primary);
         }
 
         .form-group input, .form-group textarea {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
-            transition: border 0.3s;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
         }
 
         .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--secondary);
+            border-color: var(--accent);
             outline: none;
+            box-shadow: 0 0 0 2px rgba(34, 153, 185, 0.2);
         }
 
         .form-group textarea {
@@ -295,22 +305,33 @@
         }
 
         .map-section {
-            background: white;
+            background: #f8f9fa;
             padding: 80px 0;
         }
 
         .map-container {
             height: 400px;
-            background: #f0f0f0;
-            border-radius: 10px;
+            background: white;
+            border-radius: 12px;
             overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #777;
+            color: var(--text-light);
             font-size: 18px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            text-align: center;
         }
 
+        .map-container i {
+            font-size: 48px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        /* FOOTER - Matching members page */
         footer {
             background: #5D083F;
             color: white;
@@ -390,6 +411,33 @@
             min-height: 80vh;
         }
 
+        /* Contact cards */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-card i {
+            font-size: 40px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
         @media (max-width: 992px) {
             .contact-container {
                 flex-direction: column;
@@ -403,14 +451,14 @@
 
             .nav-links {
                 position: fixed;
-                top: 80px;
+                top: 70px;
                 left: -100%;
                 width: 100%;
                 background: white;
                 flex-direction: column;
                 align-items: center;
                 padding: 20px 0;
-                transition: left 0.3s;
+                transition: left 0.3s ease;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             }
 
@@ -428,6 +476,18 @@
                 flex-direction: column;
                 gap: 30px;
             }
+            
+            .contact-info, .contact-form {
+                padding: 25px;
+            }
+            
+            .page-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .page-hero p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -444,7 +504,7 @@
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="projects.html">Projects</a></li>
                     <li><a href="members.html">Members</a></li>
                     <li><a href="resources.html">Resources</a></li>
                     <li><a href="contact.html" class="active">Contact</a></li>
@@ -506,6 +566,24 @@
                         </form>
                     </div>
                 </div>
+                
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <i class="fas fa-hands-helping"></i>
+                        <h3>Partnerships</h3>
+                        <p>Interested in collaborating with us? Reach out to discuss partnership opportunities.</p>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Volunteer</h3>
+                        <p>Join our team of volunteers and contribute to media literacy initiatives across Ethiopia.</p>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>Support</h3>
+                        <p>Need help accessing our resources or have questions about our programs?</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -515,7 +593,11 @@
                     <h2>Our Location</h2>
                 </div>
                 <div class="map-container">
-                    [Map of Addis Ababa, Ethiopia would be displayed here]
+                    <i class="fas fa-map-marked-alt"></i>
+                    <div style="font-weight: 600; color: var(--primary); margin-bottom: 10px;">Addis Ababa, Ethiopia</div>
+                    <p style="max-width: 600px; line-height: 1.5; color: var(--text-light);">
+                        Media Smart Youth Ethiopia operates across multiple regions in Ethiopia, with our main coordination office located in the capital city of Addis Ababa.
+                    </p>
                 </div>
             </div>
         </section>
@@ -533,7 +615,7 @@
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About Us</a></li>
-                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="projects.html">Projects</a></li>
                         <li><a href="resources.html">Resources</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
@@ -568,21 +650,20 @@
             const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
             
+            // Show success message
             alert(`Thank you, ${name}! Your message has been sent. We'll get back to you soon.`);
             
+            // Reset form
             this.reset();
         });
 
         window.addEventListener('scroll', function() {
             const header = document.getElementById('header');
-            const nav = document.getElementById('nav');
             
             if(window.scrollY > 100) {
-                header.classList.add('header-scrolled');
-                nav.classList.add('scrolled-nav');
+                header.classList.add('scrolled');
             } else {
-                header.classList.remove('header-scrolled');
-                nav.classList.remove('scrolled-nav');
+                header.classList.remove('scrolled');
             }
         });
 
@@ -598,8 +679,18 @@
                     link.classList.remove('active');
                 }
             });
+            
+            // Smooth scroll to top when clicking logo
+            document.querySelector('.logo a').addEventListener('click', function(e) {
+                if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
     </script>
 </body>
-
 </html>
