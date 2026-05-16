@@ -1,474 +1,519 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeSY Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- React + Babel via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #f5f6fa; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
 
-// ─── COLORS ───────────────────────────────────────────────────────────────────
-const C = { primary: "#5D083F", secondary: "#F58634", accent: "#2299B9", success: "#27ae60", danger: "#e74c3c", bg: "#f5f6fa", card: "#fff" };
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
 
-// ─── SUPABASE CLIENT ──────────────────────────────────────────────────────────
-function createSupabase(url, key) {
-  const headers = { "Content-Type": "application/json", apikey: key, Authorization: `Bearer ${key}` };
-  const db = (table) => ({
-    select: async (cols = "*", opts = {}) => {
-      let q = `${url}/rest/v1/${table}?select=${cols}`;
-      if (opts.order) q += `&order=${opts.order}`;
-      if (opts.limit) q += `&limit=${opts.limit}`;
-      if (opts.eq) Object.entries(opts.eq).forEach(([k, v]) => { q += `&${k}=eq.${v}`; });
-      const r = await fetch(q, { headers: { ...headers, Prefer: "return=representation" } });
-      return r.json();
-    },
-    insert: async (data) => {
-      const r = await fetch(`${url}/rest/v1/${table}`, { method: "POST", headers: { ...headers, Prefer: "return=representation" }, body: JSON.stringify(data) });
-      return r.json();
-    },
-    update: async (data, match) => {
-      let q = `${url}/rest/v1/${table}?`;
-      Object.entries(match).forEach(([k, v]) => { q += `${k}=eq.${v}&`; });
-      const r = await fetch(q, { method: "PATCH", headers: { ...headers, Prefer: "return=representation" }, body: JSON.stringify(data) });
-      return r.json();
-    },
-    delete: async (match) => {
-      let q = `${url}/rest/v1/${table}?`;
-      Object.entries(match).forEach(([k, v]) => { q += `${k}=eq.${v}&`; });
-      const r = await fetch(q, { method: "DELETE", headers });
-      return r.ok;
-    },
-  });
-  const auth = {
-    signIn: async (email, password) => {
-      const r = await fetch(`${url}/auth/v1/token?grant_type=password`, { method: "POST", headers, body: JSON.stringify({ email, password }) });
-      return r.json();
-    },
-    signOut: async (token) => {
-      await fetch(`${url}/auth/v1/logout`, { method: "POST", headers: { ...headers, Authorization: `Bearer ${token}` } });
-    },
-  };
-  const storage = {
-    upload: async (bucket, path, file, token) => {
-      const fd = new FormData(); fd.append("", file);
-      const r = await fetch(`${url}/storage/v1/object/${bucket}/${path}`, { method: "POST", headers: { apikey: key, Authorization: `Bearer ${token}` }, body: fd });
-      const d = await r.json();
-      return d.Key ? `${url}/storage/v1/object/public/${bucket}/${path}` : null;
-    },
-  };
-  return { db, auth, storage };
-}
+    // ── COLORS ────────────────────────────────────────────────────────────────
+    const C = {
+      primary: "#5D083F", secondary: "#F58634", accent: "#2299B9",
+      success: "#27ae60", danger: "#e74c3c", bg: "#f5f6fa", card: "#fff"
+    };
 
-// ─── SHARED UI ────────────────────────────────────────────────────────────────
-const s = {
-  input: { width: "100%", padding: "10px 14px", borderRadius: 8, border: "1.5px solid #e0e0e0", fontSize: 14, fontFamily: "inherit", outline: "none", boxSizing: "border-box", marginBottom: 12 },
-  btn: (bg, sm) => ({ background: bg, color: "#fff", border: "none", borderRadius: 20, padding: sm ? "6px 14px" : "10px 22px", fontWeight: 700, cursor: "pointer", fontSize: sm ? 12 : 14, fontFamily: "inherit", transition: "opacity .2s" }),
-  card: { background: C.card, borderRadius: 14, padding: 24, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", marginBottom: 20 },
-};
+    // ── SUPABASE CLIENT ───────────────────────────────────────────────────────
+    function createSupabase(url, key) {
+      const h = { "Content-Type": "application/json", apikey: key, Authorization: `Bearer ${key}` };
+      const db = (table) => ({
+        select: async (cols = "*", opts = {}) => {
+          let q = `${url}/rest/v1/${table}?select=${cols}`;
+          if (opts.order) q += `&order=${opts.order}`;
+          if (opts.limit) q += `&limit=${opts.limit}`;
+          if (opts.eq) Object.entries(opts.eq).forEach(([k, v]) => { q += `&${k}=eq.${v}`; });
+          const r = await fetch(q, { headers: { ...h, Prefer: "return=representation" } });
+          return r.json();
+        },
+        insert: async (data) => {
+          const r = await fetch(`${url}/rest/v1/${table}`, { method: "POST", headers: { ...h, Prefer: "return=representation" }, body: JSON.stringify(data) });
+          return r.json();
+        },
+        update: async (data, match) => {
+          let q = `${url}/rest/v1/${table}?`;
+          Object.entries(match).forEach(([k, v]) => { q += `${k}=eq.${v}&`; });
+          const r = await fetch(q, { method: "PATCH", headers: { ...h, Prefer: "return=representation" }, body: JSON.stringify(data) });
+          return r.json();
+        },
+        delete: async (match) => {
+          let q = `${url}/rest/v1/${table}?`;
+          Object.entries(match).forEach(([k, v]) => { q += `${k}=eq.${v}&`; });
+          const r = await fetch(q, { method: "DELETE", headers: h });
+          return r.ok;
+        },
+      });
+      const auth = {
+        signIn: async (email, password) => {
+          const r = await fetch(`${url}/auth/v1/token?grant_type=password`, { method: "POST", headers: h, body: JSON.stringify({ email, password }) });
+          return r.json();
+        },
+        signOut: async (token) => {
+          await fetch(`${url}/auth/v1/logout`, { method: "POST", headers: { ...h, Authorization: `Bearer ${token}` } });
+        },
+      };
+      const storage = {
+        upload: async (bucket, path, file, token) => {
+          const fd = new FormData(); fd.append("", file);
+          const r = await fetch(`${url}/storage/v1/object/${bucket}/${path}`, { method: "POST", headers: { apikey: key, Authorization: `Bearer ${token}` }, body: fd });
+          const d = await r.json();
+          return d.Key ? `${url}/storage/v1/object/public/${bucket}/${path}` : null;
+        },
+      };
+      return { db, auth, storage };
+    }
 
-function Tag({ label, color }) { return <span style={{ background: color + "20", color, borderRadius: 20, padding: "3px 12px", fontSize: 12, fontWeight: 700 }}>{label}</span>; }
-function Spinner() { return <div style={{ display: "inline-block", width: 18, height: 18, border: "3px solid #eee", borderTop: `3px solid ${C.primary}`, borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />; }
-function Toast({ msg, type }) { return msg ? <div style={{ position: "fixed", bottom: 30, right: 30, background: type === "err" ? C.danger : C.success, color: "#fff", padding: "12px 22px", borderRadius: 30, fontWeight: 700, fontSize: 14, zIndex: 9999, boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>{type === "err" ? "❌" : "✅"} {msg}</div> : null; }
+    // ── SHARED UI ─────────────────────────────────────────────────────────────
+    const s = {
+      input: { width: "100%", padding: "10px 14px", borderRadius: 8, border: "1.5px solid #e0e0e0", fontSize: 14, fontFamily: "inherit", outline: "none", boxSizing: "border-box", marginBottom: 12 },
+      btn: (bg, sm) => ({ background: bg, color: "#fff", border: "none", borderRadius: 20, padding: sm ? "6px 14px" : "10px 22px", fontWeight: 700, cursor: "pointer", fontSize: sm ? 12 : 14, fontFamily: "inherit", transition: "opacity .2s" }),
+      card: { background: C.card, borderRadius: 14, padding: 24, boxShadow: "0 4px 16px rgba(0,0,0,0.07)", marginBottom: 20 },
+    };
 
-function Modal({ title, onClose, children }) {
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ background: "#fff", borderRadius: 16, padding: 32, width: "100%", maxWidth: 540, maxHeight: "90vh", overflowY: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.2)" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <h3 style={{ color: C.primary, fontWeight: 800, margin: 0 }}>{title}</h3>
-          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 22, cursor: "pointer", color: "#aaa" }}>✕</button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function FileUpload({ label, accept, onUpload, uploading }) {
-  const ref = useRef();
-  return (
-    <div style={{ marginBottom: 12 }}>
-      <div style={{ fontSize: 13, fontWeight: 600, color: "#555", marginBottom: 6 }}>{label}</div>
-      <div onClick={() => ref.current.click()} style={{ border: "2px dashed #ddd", borderRadius: 10, padding: "18px", textAlign: "center", cursor: "pointer", background: "#fafafa", fontSize: 13, color: "#aaa" }}>
-        {uploading ? <Spinner /> : "Click to upload"}
-        <input ref={ref} type="file" accept={accept} style={{ display: "none" }} onChange={e => e.target.files[0] && onUpload(e.target.files[0])} />
-      </div>
-    </div>
-  );
-}
-
-// ─── CONFIG SCREEN ────────────────────────────────────────────────────────────
-function ConfigScreen({ onSave }) {
-  const [url, setUrl] = useState("");
-  const [key, setKey] = useState("");
-  return (
-    <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ background: "#fff", borderRadius: 20, padding: 40, width: "100%", maxWidth: 460, boxShadow: "0 8px 40px rgba(0,0,0,0.1)" }}>
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <div style={{ fontSize: 40, marginBottom: 10 }}>⚙️</div>
-          <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 6 }}>Connect Supabase</h2>
-          <p style={{ color: "#888", fontSize: 14 }}>Paste your Supabase project URL and anon key to get started.</p>
-        </div>
-        <input value={url} onChange={e => setUrl(e.target.value)} placeholder="https://xxxx.supabase.co" style={s.input} />
-        <input value={key} onChange={e => setKey(e.target.value)} placeholder="your-anon-key" style={s.input} />
-        <button onClick={() => url && key && onSave(url.trim(), key.trim())} style={{ ...s.btn(C.primary), width: "100%", padding: "13px" }}>Connect Dashboard</button>
-        <div style={{ marginTop: 20, background: "#f9f0f5", borderRadius: 10, padding: 14, fontSize: 12, color: "#666" }}>
-          <strong>📋 Setup:</strong> Go to <strong>supabase.com</strong> → New Project → Project Settings → API → copy <em>Project URL</em> and <em>anon/public key</em>. Then run the SQL setup script (ask the AI Assistant for it).
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── LOGIN SCREEN ─────────────────────────────────────────────────────────────
-function LoginScreen({ sb, onLogin }) {
-  const [email, setEmail] = useState(""); const [pw, setPw] = useState(""); const [err, setErr] = useState(""); const [loading, setLoading] = useState(false);
-  const login = async () => {
-    setLoading(true); setErr("");
-    const d = await sb.auth.signIn(email, pw);
-    if (d.access_token) onLogin(d.access_token, d.user);
-    else setErr(d.error_description || d.msg || "Invalid credentials");
-    setLoading(false);
-  };
-  return (
-    <div style={{ minHeight: "100vh", background: `linear-gradient(135deg, ${C.primary}, ${C.accent})`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ background: "#fff", borderRadius: 20, padding: 40, width: "100%", maxWidth: 400, boxShadow: "0 8px 40px rgba(0,0,0,0.2)" }}>
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <div style={{ fontSize: 44, marginBottom: 8 }}>🔐</div>
-          <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 4 }}>MeSY Admin</h2>
-          <p style={{ color: "#888", fontSize: 14 }}>Media Smart Youth Ethiopia</p>
-        </div>
-        {err && <div style={{ background: "#fde", color: C.danger, borderRadius: 8, padding: "10px 14px", fontSize: 13, marginBottom: 12 }}>{err}</div>}
-        <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" type="email" style={s.input} />
-        <input value={pw} onChange={e => setPw(e.target.value)} placeholder="Password" type="password" style={s.input} onKeyDown={e => e.key === "Enter" && login()} />
-        <button onClick={login} disabled={loading} style={{ ...s.btn(C.primary), width: "100%", padding: 13 }}>{loading ? "Signing in…" : "Sign In"}</button>
-      </div>
-    </div>
-  );
-}
-
-// ─── SIDEBAR ──────────────────────────────────────────────────────────────────
-const NAV = [
-  { id: "overview", label: "Overview", icon: "📊" },
-  { id: "news", label: "News & Updates", icon: "📰" },
-  { id: "projects", label: "Projects", icon: "📁" },
-  { id: "team", label: "Team Members", icon: "👥" },
-  { id: "events", label: "Events", icon: "📅" },
-  { id: "gallery", label: "Gallery", icon: "🖼️" },
-  { id: "contacts", label: "Contact Submissions", icon: "✉️" },
-  { id: "ai", label: "AI Assistant", icon: "✨" },
-];
-
-function Sidebar({ active, setActive, user, onLogout }) {
-  return (
-    <div style={{ width: 230, background: C.primary, color: "#fff", minHeight: "100vh", display: "flex", flexDirection: "column", flexShrink: 0 }}>
-      <div style={{ padding: "22px 20px 14px", borderBottom: "1px solid rgba(255,255,255,0.12)" }}>
-        <div style={{ fontSize: 11, opacity: 0.6, marginBottom: 2, letterSpacing: 1 }}>ADMIN PANEL</div>
-        <div style={{ fontWeight: 800, fontSize: 15 }}>MeSY Ethiopia</div>
-      </div>
-      <nav style={{ flex: 1, padding: "10px 0" }}>
-        {NAV.map(n => (
-          <button key={n.id} onClick={() => setActive(n.id)} style={{ display: "flex", alignItems: "center", gap: 11, width: "100%", padding: "10px 20px", background: active === n.id ? "rgba(255,255,255,0.16)" : "transparent", border: "none", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: active === n.id ? 700 : 400, borderLeft: active === n.id ? `4px solid ${C.secondary}` : "4px solid transparent", textAlign: "left", fontFamily: "inherit" }}>
-            <span>{n.icon}</span>{n.label}
-          </button>
-        ))}
-      </nav>
-      <div style={{ padding: "14px 20px", borderTop: "1px solid rgba(255,255,255,0.12)" }}>
-        <div style={{ fontSize: 12, opacity: 0.6, marginBottom: 8 }}>{user?.email}</div>
-        <button onClick={onLogout} style={{ ...s.btn("rgba(255,255,255,0.15)", true), width: "100%" }}>Sign Out</button>
-      </div>
-    </div>
-  );
-}
-
-// ─── OVERVIEW ─────────────────────────────────────────────────────────────────
-function Overview({ sb }) {
-  const [counts, setCounts] = useState({});
-  const [contacts, setContacts] = useState([]);
-  useEffect(() => {
-    const tables = ["news", "projects", "team_members", "events", "gallery", "contact_submissions"];
-    Promise.all(tables.map(t => sb.db(t).select("id").catch(() => []))).then(res => {
-      const c = {}; tables.forEach((t, i) => { c[t] = Array.isArray(res[i]) ? res[i].length : 0; });
-      setCounts(c);
-    });
-    sb.db("contact_submissions").select("*", { order: "created_at.desc", limit: 5 }).then(d => Array.isArray(d) && setContacts(d));
-  }, []);
-  const stats = [
-    { label: "News Items", val: counts.news ?? "–", color: C.primary, icon: "📰" },
-    { label: "Projects", val: counts.projects ?? "–", color: C.secondary, icon: "📁" },
-    { label: "Team Members", val: counts.team_members ?? "–", color: C.accent, icon: "👥" },
-    { label: "Events", val: counts.events ?? "–", color: "#8e44ad", icon: "📅" },
-    { label: "Gallery Items", val: counts.gallery ?? "–", color: "#27ae60", icon: "🖼️" },
-    { label: "Submissions", val: counts.contact_submissions ?? "–", color: "#e67e22", icon: "✉️" },
-  ];
-  return (
-    <div>
-      <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 24 }}>Dashboard Overview</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 16, marginBottom: 28 }}>
-        {stats.map(st => (
-          <div key={st.label} style={{ ...s.card, marginBottom: 0, borderTop: `4px solid ${st.color}`, textAlign: "center" }}>
-            <div style={{ fontSize: 28 }}>{st.icon}</div>
-            <div style={{ fontSize: 30, fontWeight: 800, color: st.color }}>{st.val}</div>
-            <div style={{ fontSize: 12, color: "#888" }}>{st.label}</div>
+    function Tag({ label, color }) {
+      return <span style={{ background: color + "20", color, borderRadius: 20, padding: "3px 12px", fontSize: 12, fontWeight: 700 }}>{label}</span>;
+    }
+    function Spinner() {
+      return <div style={{ display: "inline-block", width: 18, height: 18, border: "3px solid #eee", borderTop: `3px solid ${C.primary}`, borderRadius: "50%", animation: "spin 0.7s linear infinite" }} />;
+    }
+    function Toast({ msg, type }) {
+      return msg ? <div style={{ position: "fixed", bottom: 30, right: 30, background: type === "err" ? C.danger : C.success, color: "#fff", padding: "12px 22px", borderRadius: 30, fontWeight: 700, fontSize: 14, zIndex: 9999, boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>{type === "err" ? "❌" : "✅"} {msg}</div> : null;
+    }
+    function Modal({ title, onClose, children }) {
+      return (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "#fff", borderRadius: 16, padding: 32, width: "100%", maxWidth: 540, maxHeight: "90vh", overflowY: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.2)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+              <h3 style={{ color: C.primary, fontWeight: 800, margin: 0 }}>{title}</h3>
+              <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 22, cursor: "pointer", color: "#aaa" }}>✕</button>
+            </div>
+            {children}
           </div>
-        ))}
-      </div>
-      <div style={s.card}>
-        <h3 style={{ color: C.primary, marginBottom: 16, fontWeight: 700 }}>Recent Contact Submissions</h3>
-        {contacts.length === 0 ? <p style={{ color: "#aaa", fontSize: 14 }}>No submissions yet.</p> : contacts.map(c => (
-          <div key={c.id} style={{ padding: "10px 0", borderBottom: "1px solid #f0f0f0", fontSize: 13 }}>
-            <strong>{c.name}</strong> — {c.email} <span style={{ color: "#aaa" }}>· {c.subject}</span>
+        </div>
+      );
+    }
+    function FileUpload({ label, accept, onUpload, uploading }) {
+      const ref = useRef();
+      return (
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "#555", marginBottom: 6 }}>{label}</div>
+          <div onClick={() => ref.current.click()} style={{ border: "2px dashed #ddd", borderRadius: 10, padding: "18px", textAlign: "center", cursor: "pointer", background: "#fafafa", fontSize: 13, color: "#aaa" }}>
+            {uploading ? <Spinner /> : "Click to upload"}
+            <input ref={ref} type="file" accept={accept} style={{ display: "none" }} onChange={e => e.target.files[0] && onUpload(e.target.files[0])} />
           </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+        </div>
+      );
+    }
 
-// ─── GENERIC CRUD TABLE ───────────────────────────────────────────────────────
-function CrudSection({ sb, token, table, label, fields, renderRow, formTitle }) {
-  const [rows, setRows] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [modal, setModal] = useState(null); // null | "add" | row
-  const [form, setForm] = useState({});
-  const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState({});
-  const [toast, setToast] = useState(null);
+    // ── CONFIG SCREEN ─────────────────────────────────────────────────────────
+    function ConfigScreen({ onSave }) {
+      const [url, setUrl] = useState(""); const [key, setKey] = useState("");
+      return (
+        <div style={{ minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "#fff", borderRadius: 20, padding: 40, width: "100%", maxWidth: 460, boxShadow: "0 8px 40px rgba(0,0,0,0.1)" }}>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <div style={{ fontSize: 40, marginBottom: 10 }}>⚙️</div>
+              <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 6 }}>Connect Supabase</h2>
+              <p style={{ color: "#888", fontSize: 14 }}>Paste your Supabase project URL and anon key.</p>
+            </div>
+            <input value={url} onChange={e => setUrl(e.target.value)} placeholder="https://xxxx.supabase.co" style={s.input} />
+            <input value={key} onChange={e => setKey(e.target.value)} placeholder="your-anon-key" style={s.input} />
+            <button onClick={() => url && key && onSave(url.trim(), key.trim())} style={{ ...s.btn(C.primary), width: "100%", padding: "13px" }}>Connect Dashboard</button>
+            <div style={{ marginTop: 20, background: "#f9f0f5", borderRadius: 10, padding: 14, fontSize: 12, color: "#666" }}>
+              <strong>📋 Setup:</strong> Go to <strong>supabase.com</strong> → Project Settings → API → copy <em>Project URL</em> and <em>anon key</em>.
+            </div>
+          </div>
+        </div>
+      );
+    }
 
-  const showToast = (msg, type = "ok") => { setToast({ msg, type }); setTimeout(() => setToast(null), 3000); };
-  const load = useCallback(() => { setLoading(true); sb.db(table).select("*", { order: "created_at.desc" }).then(d => { setRows(Array.isArray(d) ? d : []); setLoading(false); }); }, [table]);
-  useEffect(() => { load(); }, [load]);
+    // ── LOGIN SCREEN ──────────────────────────────────────────────────────────
+    function LoginScreen({ sb, onLogin }) {
+      const [email, setEmail] = useState(""); const [pw, setPw] = useState(""); const [err, setErr] = useState(""); const [loading, setLoading] = useState(false);
+      const login = async () => {
+        setLoading(true); setErr("");
+        const d = await sb.auth.signIn(email, pw);
+        if (d.access_token) onLogin(d.access_token, d.user);
+        else setErr(d.error_description || d.msg || "Invalid credentials");
+        setLoading(false);
+      };
+      return (
+        <div style={{ minHeight: "100vh", background: `linear-gradient(135deg, ${C.primary}, ${C.accent})`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "#fff", borderRadius: 20, padding: 40, width: "100%", maxWidth: 400, boxShadow: "0 8px 40px rgba(0,0,0,0.2)" }}>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <div style={{ fontSize: 44, marginBottom: 8 }}>🔐</div>
+              <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 4 }}>MeSY Admin</h2>
+              <p style={{ color: "#888", fontSize: 14 }}>Media Smart Youth Ethiopia</p>
+            </div>
+            {err && <div style={{ background: "#fde", color: C.danger, borderRadius: 8, padding: "10px 14px", fontSize: 13, marginBottom: 12 }}>{err}</div>}
+            <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" type="email" style={s.input} />
+            <input value={pw} onChange={e => setPw(e.target.value)} placeholder="Password" type="password" style={s.input} onKeyDown={e => e.key === "Enter" && login()} />
+            <button onClick={login} disabled={loading} style={{ ...s.btn(C.primary), width: "100%", padding: 13 }}>{loading ? "Signing in…" : "Sign In"}</button>
+          </div>
+        </div>
+      );
+    }
 
-  const openAdd = () => { const def = {}; fields.forEach(f => { def[f.key] = f.default ?? ""; }); setForm(def); setModal("add"); };
-  const openEdit = (row) => { setForm({ ...row }); setModal(row); };
+    // ── SIDEBAR ───────────────────────────────────────────────────────────────
+    const NAV = [
+      { id: "overview", label: "Overview", icon: "📊" },
+      { id: "news", label: "News & Updates", icon: "📰" },
+      { id: "projects", label: "Projects", icon: "📁" },
+      { id: "team", label: "Team Members", icon: "👥" },
+      { id: "events", label: "Events", icon: "📅" },
+      { id: "gallery", label: "Gallery", icon: "🖼️" },
+      { id: "contacts", label: "Contact Submissions", icon: "✉️" },
+      { id: "ai", label: "AI Assistant", icon: "✨" },
+    ];
 
-  const save = async () => {
-    setSaving(true);
-    try {
-      if (modal === "add") await sb.db(table).insert(form);
-      else await sb.db(table).update(form, { id: modal.id });
-      showToast(modal === "add" ? "Created!" : "Updated!");
-      setModal(null); load();
-    } catch { showToast("Save failed", "err"); }
-    setSaving(false);
-  };
+    function Sidebar({ active, setActive, user, onLogout }) {
+      return (
+        <div style={{ width: 230, background: C.primary, color: "#fff", minHeight: "100vh", display: "flex", flexDirection: "column", flexShrink: 0 }}>
+          <div style={{ padding: "22px 20px 14px", borderBottom: "1px solid rgba(255,255,255,0.12)" }}>
+            <div style={{ fontSize: 11, opacity: 0.6, marginBottom: 2, letterSpacing: 1 }}>ADMIN PANEL</div>
+            <div style={{ fontWeight: 800, fontSize: 15 }}>MeSY Ethiopia</div>
+          </div>
+          <nav style={{ flex: 1, padding: "10px 0" }}>
+            {NAV.map(n => (
+              <button key={n.id} onClick={() => setActive(n.id)} style={{ display: "flex", alignItems: "center", gap: 11, width: "100%", padding: "10px 20px", background: active === n.id ? "rgba(255,255,255,0.16)" : "transparent", border: "none", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: active === n.id ? 700 : 400, borderLeft: active === n.id ? `4px solid ${C.secondary}` : "4px solid transparent", textAlign: "left", fontFamily: "inherit" }}>
+                <span>{n.icon}</span>{n.label}
+              </button>
+            ))}
+          </nav>
+          <div style={{ padding: "14px 20px", borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+            <div style={{ fontSize: 12, opacity: 0.6, marginBottom: 8 }}>{user?.email}</div>
+            <button onClick={onLogout} style={{ ...s.btn("rgba(255,255,255,0.15)", true), width: "100%" }}>Sign Out</button>
+          </div>
+        </div>
+      );
+    }
 
-  const del = async (id) => {
-    if (!confirm("Delete this item?")) return;
-    await sb.db(table).delete({ id });
-    showToast("Deleted"); load();
-  };
-
-  const uploadFile = async (fieldKey, file, bucket) => {
-    setUploading(u => ({ ...u, [fieldKey]: true }));
-    const ext = file.name.split(".").pop();
-    const path = `${table}/${Date.now()}.${ext}`;
-    const url = await sb.storage.upload(bucket, path, file, token);
-    if (url) setForm(f => ({ ...f, [fieldKey]: url }));
-    else showToast("Upload failed", "err");
-    setUploading(u => ({ ...u, [fieldKey]: false }));
-  };
-
-  return (
-    <div>
-      {toast && <Toast msg={toast.msg} type={toast.type} />}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22 }}>
-        <h2 style={{ color: C.primary, fontWeight: 800 }}>{label}</h2>
-        <button onClick={openAdd} style={s.btn(C.secondary)}>+ Add {formTitle || label}</button>
-      </div>
-      {loading ? <div style={{ textAlign: "center", padding: 40 }}><Spinner /></div> : (
-        rows.length === 0 ? <div style={{ ...s.card, textAlign: "center", color: "#aaa" }}>No items yet. Add your first one!</div> :
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {rows.map(row => (
-            <div key={row.id} style={{ ...s.card, marginBottom: 0, display: "flex", alignItems: "center", gap: 16 }}>
-              {renderRow(row)}
-              <div style={{ display: "flex", gap: 8, flexShrink: 0, marginLeft: "auto" }}>
-                <button onClick={() => openEdit(row)} style={s.btn(C.accent, true)}>Edit</button>
-                <button onClick={() => del(row.id)} style={s.btn(C.danger, true)}>Delete</button>
+    // ── OVERVIEW ──────────────────────────────────────────────────────────────
+    function Overview({ sb }) {
+      const [counts, setCounts] = useState({}); const [contacts, setContacts] = useState([]);
+      useEffect(() => {
+        const tables = ["news", "projects", "team_members", "events", "gallery", "contact_submissions"];
+        Promise.all(tables.map(t => sb.db(t).select("id").catch(() => []))).then(res => {
+          const c = {}; tables.forEach((t, i) => { c[t] = Array.isArray(res[i]) ? res[i].length : 0; }); setCounts(c);
+        });
+        sb.db("contact_submissions").select("*", { order: "created_at.desc", limit: 5 }).then(d => Array.isArray(d) && setContacts(d));
+      }, []);
+      const stats = [
+        { label: "News Items", val: counts.news ?? "–", color: C.primary, icon: "📰" },
+        { label: "Projects", val: counts.projects ?? "–", color: C.secondary, icon: "📁" },
+        { label: "Team Members", val: counts.team_members ?? "–", color: C.accent, icon: "👥" },
+        { label: "Events", val: counts.events ?? "–", color: "#8e44ad", icon: "📅" },
+        { label: "Gallery Items", val: counts.gallery ?? "–", color: "#27ae60", icon: "🖼️" },
+        { label: "Submissions", val: counts.contact_submissions ?? "–", color: "#e67e22", icon: "✉️" },
+      ];
+      return (
+        <div>
+          <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 24 }}>Dashboard Overview</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 16, marginBottom: 28 }}>
+            {stats.map(st => (
+              <div key={st.label} style={{ ...s.card, marginBottom: 0, borderTop: `4px solid ${st.color}`, textAlign: "center" }}>
+                <div style={{ fontSize: 28 }}>{st.icon}</div>
+                <div style={{ fontSize: 30, fontWeight: 800, color: st.color }}>{st.val}</div>
+                <div style={{ fontSize: 12, color: "#888" }}>{st.label}</div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div style={s.card}>
+            <h3 style={{ color: C.primary, marginBottom: 16, fontWeight: 700 }}>Recent Contact Submissions</h3>
+            {contacts.length === 0
+              ? <p style={{ color: "#aaa", fontSize: 14 }}>No submissions yet.</p>
+              : contacts.map(c => (
+                <div key={c.id} style={{ padding: "10px 0", borderBottom: "1px solid #f0f0f0", fontSize: 13 }}>
+                  <strong>{c.name}</strong> — {c.email} <span style={{ color: "#aaa" }}>· {c.subject}</span>
+                </div>
+              ))}
+          </div>
         </div>
-      )}
-      {modal && (
-        <Modal title={modal === "add" ? `New ${formTitle || label}` : `Edit ${formTitle || label}`} onClose={() => setModal(null)}>
-          {fields.map(f => (
-            <div key={f.key}>
-              <label style={{ fontSize: 13, fontWeight: 600, color: "#555", display: "block", marginBottom: 5 }}>{f.label}</label>
-              {f.type === "textarea" ? (
-                <textarea value={form[f.key] || ""} onChange={e => setForm({ ...f2 => ({ ...f2, [f.key]: e.target.value }), ...form, [f.key]: e.target.value })} rows={3} style={{ ...s.input, resize: "vertical" }} />
-              ) : f.type === "file" ? (
-                <div>
-                  {form[f.key] && <div style={{ marginBottom: 8 }}>{f.fileType === "video" ? <video src={form[f.key]} style={{ width: "100%", borderRadius: 8, maxHeight: 140 }} controls /> : <img src={form[f.key]} style={{ width: "100%", borderRadius: 8, maxHeight: 140, objectFit: "cover" }} />}</div>}
-                  <FileUpload label={form[f.key] ? "Replace file" : "Upload file"} accept={f.accept} uploading={uploading[f.key]} onUpload={file => uploadFile(f.key, file, f.bucket || "images")} />
-                </div>
-              ) : f.type === "select" ? (
-                <select value={form[f.key] || ""} onChange={e => setForm({ ...form, [f.key]: e.target.value })} style={s.input}>
-                  {f.options.map(o => <option key={o} value={o}>{o}</option>)}
-                </select>
-              ) : f.type === "toggle" ? (
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-                  <button onClick={() => setForm({ ...form, [f.key]: !form[f.key] })} style={s.btn(form[f.key] ? C.success : "#aaa", true)}>{form[f.key] ? "Active" : "Hidden"}</button>
-                </div>
-              ) : (
-                <input type={f.type || "text"} value={form[f.key] || ""} onChange={e => setForm({ ...form, [f.key]: e.target.value })} placeholder={f.placeholder || f.label} style={s.input} />
-              )}
-            </div>
-          ))}
-          <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
-            <button onClick={save} disabled={saving} style={s.btn(C.primary)}>{saving ? "Saving…" : "Save"}</button>
-            <button onClick={() => setModal(null)} style={s.btn("#aaa")}>Cancel</button>
-          </div>
-        </Modal>
-      )}
-    </div>
-  );
-}
+      );
+    }
 
-// ─── CONTACTS (read-only) ─────────────────────────────────────────────────────
-function ContactSubmissions({ sb }) {
-  const [rows, setRows] = useState([]); const [loading, setLoading] = useState(true); const [sel, setSel] = useState(null);
-  useEffect(() => { sb.db("contact_submissions").select("*", { order: "created_at.desc" }).then(d => { setRows(Array.isArray(d) ? d : []); setLoading(false); }); }, []);
-  const markRead = async (id) => { await sb.db("contact_submissions").update({ read: true }, { id }); setRows(r => r.map(x => x.id === id ? { ...x, read: true } : x)); };
-  const del = async (id) => { if (!confirm("Delete?")) return; await sb.db("contact_submissions").delete({ id }); setRows(r => r.filter(x => x.id !== id)); setSel(null); };
-  return (
-    <div>
-      <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 22 }}>Contact Submissions</h2>
-      {sel && (
-        <Modal title="Submission Detail" onClose={() => setSel(null)}>
-          <div style={{ fontSize: 14, lineHeight: 1.8 }}>
-            <p><strong>Name:</strong> {sel.name}</p><p><strong>Email:</strong> {sel.email}</p>
-            <p><strong>Subject:</strong> {sel.subject}</p><p><strong>Message:</strong></p>
-            <div style={{ background: "#f7f7f9", borderRadius: 8, padding: 14, fontSize: 13 }}>{sel.message}</div>
-            <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-              {!sel.read && <button onClick={() => { markRead(sel.id); setSel({ ...sel, read: true }); }} style={s.btn(C.success, true)}>Mark Read</button>}
-              <button onClick={() => del(sel.id)} style={s.btn(C.danger, true)}>Delete</button>
-            </div>
+    // ── GENERIC CRUD TABLE ────────────────────────────────────────────────────
+    function CrudSection({ sb, token, table, label, fields, renderRow, formTitle }) {
+      const [rows, setRows] = useState([]); const [loading, setLoading] = useState(true);
+      const [modal, setModal] = useState(null); const [form, setForm] = useState({});
+      const [saving, setSaving] = useState(false); const [uploading, setUploading] = useState({});
+      const [toast, setToast] = useState(null);
+
+      const showToast = (msg, type = "ok") => { setToast({ msg, type }); setTimeout(() => setToast(null), 3000); };
+      const load = useCallback(() => { setLoading(true); sb.db(table).select("*", { order: "created_at.desc" }).then(d => { setRows(Array.isArray(d) ? d : []); setLoading(false); }); }, [table]);
+      useEffect(() => { load(); }, [load]);
+
+      const openAdd = () => { const def = {}; fields.forEach(f => { def[f.key] = f.default ?? ""; }); setForm(def); setModal("add"); };
+      const openEdit = (row) => { setForm({ ...row }); setModal(row); };
+      const save = async () => {
+        setSaving(true);
+        try {
+          if (modal === "add") await sb.db(table).insert(form);
+          else await sb.db(table).update(form, { id: modal.id });
+          showToast(modal === "add" ? "Created!" : "Updated!"); setModal(null); load();
+        } catch { showToast("Save failed", "err"); }
+        setSaving(false);
+      };
+      const del = async (id) => {
+        if (!confirm("Delete this item?")) return;
+        await sb.db(table).delete({ id }); showToast("Deleted"); load();
+      };
+      const uploadFile = async (fieldKey, file, bucket) => {
+        setUploading(u => ({ ...u, [fieldKey]: true }));
+        const ext = file.name.split(".").pop();
+        const path = `${table}/${Date.now()}.${ext}`;
+        const url = await sb.storage.upload(bucket, path, file, token);
+        if (url) setForm(f => ({ ...f, [fieldKey]: url }));
+        else showToast("Upload failed", "err");
+        setUploading(u => ({ ...u, [fieldKey]: false }));
+      };
+
+      const updateForm = (key, val) => setForm(prev => ({ ...prev, [key]: val }));
+
+      return (
+        <div>
+          {toast && <Toast msg={toast.msg} type={toast.type} />}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22 }}>
+            <h2 style={{ color: C.primary, fontWeight: 800 }}>{label}</h2>
+            <button onClick={openAdd} style={s.btn(C.secondary)}>+ Add {formTitle || label}</button>
           </div>
-        </Modal>
-      )}
-      {loading ? <Spinner /> : rows.length === 0 ? <div style={{ ...s.card, color: "#aaa", textAlign: "center" }}>No submissions yet.</div> : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {rows.map(r => (
-            <div key={r.id} onClick={() => setSel(r)} style={{ ...s.card, marginBottom: 0, cursor: "pointer", display: "flex", alignItems: "center", gap: 14, opacity: r.read ? 0.65 : 1, borderLeft: r.read ? "4px solid #ddd" : `4px solid ${C.secondary}` }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 700, fontSize: 14 }}>{r.name} <span style={{ color: "#aaa", fontWeight: 400, fontSize: 12 }}>{r.email}</span></div>
-                <div style={{ fontSize: 13, color: "#666" }}>{r.subject}</div>
+          {loading
+            ? <div style={{ textAlign: "center", padding: 40 }}><Spinner /></div>
+            : rows.length === 0
+              ? <div style={{ ...s.card, textAlign: "center", color: "#aaa" }}>No items yet. Add your first one!</div>
+              : <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {rows.map(row => (
+                  <div key={row.id} style={{ ...s.card, marginBottom: 0, display: "flex", alignItems: "center", gap: 16 }}>
+                    {renderRow(row)}
+                    <div style={{ display: "flex", gap: 8, flexShrink: 0, marginLeft: "auto" }}>
+                      <button onClick={() => openEdit(row)} style={s.btn(C.accent, true)}>Edit</button>
+                      <button onClick={() => del(row.id)} style={s.btn(C.danger, true)}>Delete</button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              {!r.read && <Tag label="New" color={C.secondary} />}
-              <div style={{ fontSize: 12, color: "#bbb" }}>{r.created_at?.slice(0, 10)}</div>
-            </div>
-          ))}
+          }
+          {modal && (
+            <Modal title={modal === "add" ? `New ${formTitle || label}` : `Edit ${formTitle || label}`} onClose={() => setModal(null)}>
+              {fields.map(f => (
+                <div key={f.key}>
+                  <label style={{ fontSize: 13, fontWeight: 600, color: "#555", display: "block", marginBottom: 5 }}>{f.label}</label>
+                  {f.type === "textarea" ? (
+                    <textarea value={form[f.key] || ""} onChange={e => updateForm(f.key, e.target.value)} rows={3} style={{ ...s.input, resize: "vertical" }} />
+                  ) : f.type === "file" ? (
+                    <div>
+                      {form[f.key] && (
+                        <div style={{ marginBottom: 8 }}>
+                          {f.fileType === "video"
+                            ? <video src={form[f.key]} style={{ width: "100%", borderRadius: 8, maxHeight: 140 }} controls />
+                            : <img src={form[f.key]} style={{ width: "100%", borderRadius: 8, maxHeight: 140, objectFit: "cover" }} alt="" />}
+                        </div>
+                      )}
+                      <FileUpload label={form[f.key] ? "Replace file" : "Upload file"} accept={f.accept} uploading={uploading[f.key]} onUpload={file => uploadFile(f.key, file, f.bucket || "images")} />
+                    </div>
+                  ) : f.type === "select" ? (
+                    <select value={form[f.key] || ""} onChange={e => updateForm(f.key, e.target.value)} style={s.input}>
+                      {f.options.map(o => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  ) : f.type === "toggle" ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                      <button onClick={() => updateForm(f.key, !form[f.key])} style={s.btn(form[f.key] ? C.success : "#aaa", true)}>
+                        {form[f.key] ? "Active" : "Hidden"}
+                      </button>
+                    </div>
+                  ) : (
+                    <input type={f.type || "text"} value={form[f.key] || ""} onChange={e => updateForm(f.key, e.target.value)} placeholder={f.placeholder || f.label} style={s.input} />
+                  )}
+                </div>
+              ))}
+              <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+                <button onClick={save} disabled={saving} style={s.btn(C.primary)}>{saving ? "Saving…" : "Save"}</button>
+                <button onClick={() => setModal(null)} style={s.btn("#aaa")}>Cancel</button>
+              </div>
+            </Modal>
+          )}
         </div>
-      )}
-    </div>
-  );
-}
+      );
+    }
 
-// ─── AI ASSISTANT ─────────────────────────────────────────────────────────────
-function AIAssistant() {
-  const [msgs, setMsgs] = useState([{ role: "assistant", text: "Hi! I'm your MeSY content assistant. I can write news items, project descriptions, event copy, team bios, and also give you the Supabase SQL setup script — just ask!" }]);
-  const [input, setInput] = useState(""); const [loading, setLoading] = useState(false); const ref = useRef();
-  useEffect(() => { ref.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
-  const send = async () => {
-    if (!input.trim() || loading) return;
-    const text = input.trim(); setInput(""); setMsgs(m => [...m, { role: "user", text }]); setLoading(true);
-    try {
-      const r = await fetch("https://api.anthropic.com/v1/messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, system: "You are a helpful assistant for Media Smart Youth (MeSY) Ethiopia, a youth-led NGO fighting misinformation. Help write website content, SQL setup scripts for Supabase (tables: news, projects, team_members, events, gallery, contact_submissions with standard fields), and give technical advice. Be concise and practical.", messages: [{ role: "user", content: text }] }) });
-      const d = await r.json(); setMsgs(m => [...m, { role: "assistant", text: d.content?.map(c => c.text || "").join("") || "Error." }]);
-    } catch { setMsgs(m => [...m, { role: "assistant", text: "Network error. Try again." }]); }
-    setLoading(false);
-  };
-  return (
-    <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 120px)" }}>
-      <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 18 }}>✨ AI Assistant</h2>
-      <div style={{ flex: 1, overflowY: "auto", ...s.card, marginBottom: 14 }}>
-        {msgs.map((m, i) => (
-          <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", marginBottom: 12 }}>
-            <div style={{ maxWidth: "78%", background: m.role === "user" ? C.primary : "#f4f4f8", color: m.role === "user" ? "#fff" : "#333", borderRadius: m.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px", padding: "11px 16px", fontSize: 14, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>{m.text}</div>
+    // ── CONTACTS (read-only) ──────────────────────────────────────────────────
+    function ContactSubmissions({ sb }) {
+      const [rows, setRows] = useState([]); const [loading, setLoading] = useState(true); const [sel, setSel] = useState(null);
+      useEffect(() => { sb.db("contact_submissions").select("*", { order: "created_at.desc" }).then(d => { setRows(Array.isArray(d) ? d : []); setLoading(false); }); }, []);
+      const markRead = async (id) => { await sb.db("contact_submissions").update({ read: true }, { id }); setRows(r => r.map(x => x.id === id ? { ...x, read: true } : x)); };
+      const del = async (id) => { if (!confirm("Delete?")) return; await sb.db("contact_submissions").delete({ id }); setRows(r => r.filter(x => x.id !== id)); setSel(null); };
+      return (
+        <div>
+          <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 22 }}>Contact Submissions</h2>
+          {sel && (
+            <Modal title="Submission Detail" onClose={() => setSel(null)}>
+              <div style={{ fontSize: 14, lineHeight: 1.8 }}>
+                <p><strong>Name:</strong> {sel.name}</p>
+                <p><strong>Email:</strong> {sel.email}</p>
+                <p><strong>Subject:</strong> {sel.subject}</p>
+                <p><strong>Message:</strong></p>
+                <div style={{ background: "#f7f7f9", borderRadius: 8, padding: 14, fontSize: 13 }}>{sel.message}</div>
+                <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+                  {!sel.read && <button onClick={() => { markRead(sel.id); setSel({ ...sel, read: true }); }} style={s.btn(C.success, true)}>Mark Read</button>}
+                  <button onClick={() => del(sel.id)} style={s.btn(C.danger, true)}>Delete</button>
+                </div>
+              </div>
+            </Modal>
+          )}
+          {loading ? <Spinner /> : rows.length === 0
+            ? <div style={{ ...s.card, color: "#aaa", textAlign: "center" }}>No submissions yet.</div>
+            : <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {rows.map(r => (
+                <div key={r.id} onClick={() => setSel(r)} style={{ ...s.card, marginBottom: 0, cursor: "pointer", display: "flex", alignItems: "center", gap: 14, opacity: r.read ? 0.65 : 1, borderLeft: r.read ? "4px solid #ddd" : `4px solid ${C.secondary}` }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 700, fontSize: 14 }}>{r.name} <span style={{ color: "#aaa", fontWeight: 400, fontSize: 12 }}>{r.email}</span></div>
+                    <div style={{ fontSize: 13, color: "#666" }}>{r.subject}</div>
+                  </div>
+                  {!r.read && <Tag label="New" color={C.secondary} />}
+                  <div style={{ fontSize: 12, color: "#bbb" }}>{r.created_at?.slice(0, 10)}</div>
+                </div>
+              ))}
+            </div>
+          }
+        </div>
+      );
+    }
+
+    // ── AI ASSISTANT ──────────────────────────────────────────────────────────
+    function AIAssistant() {
+      const [msgs, setMsgs] = useState([{ role: "assistant", text: "Hi! I'm your MeSY content assistant. I can write news items, project descriptions, event copy, team bios, and give you the Supabase SQL setup script — just ask!" }]);
+      const [input, setInput] = useState(""); const [loading, setLoading] = useState(false); const ref = useRef();
+      useEffect(() => { ref.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
+      const send = async () => {
+        if (!input.trim() || loading) return;
+        const text = input.trim(); setInput(""); setMsgs(m => [...m, { role: "user", text }]); setLoading(true);
+        try {
+          const r = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model: "claude-sonnet-4-20250514", max_tokens: 1000,
+              system: "You are a helpful assistant for Media Smart Youth (MeSY) Ethiopia, a youth-led NGO fighting misinformation. Help write website content, SQL setup scripts for Supabase (tables: news, projects, team_members, events, gallery, contact_submissions with standard fields), and give technical advice. Be concise and practical.",
+              messages: [{ role: "user", content: text }]
+            })
+          });
+          const d = await r.json();
+          setMsgs(m => [...m, { role: "assistant", text: d.content?.map(c => c.text || "").join("") || "Error." }]);
+        } catch { setMsgs(m => [...m, { role: "assistant", text: "Network error. Try again." }]); }
+        setLoading(false);
+      };
+      return (
+        <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 120px)" }}>
+          <h2 style={{ color: C.primary, fontWeight: 800, marginBottom: 18 }}>✨ AI Assistant</h2>
+          <div style={{ flex: 1, overflowY: "auto", ...s.card, marginBottom: 14 }}>
+            {msgs.map((m, i) => (
+              <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", marginBottom: 12 }}>
+                <div style={{ maxWidth: "78%", background: m.role === "user" ? C.primary : "#f4f4f8", color: m.role === "user" ? "#fff" : "#333", borderRadius: m.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px", padding: "11px 16px", fontSize: 14, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>{m.text}</div>
+              </div>
+            ))}
+            {loading && <div style={{ color: "#aaa", fontSize: 13 }}>Thinking…</div>}
+            <div ref={ref} />
           </div>
-        ))}
-        {loading && <div style={{ color: "#aaa", fontSize: 13 }}>Thinking…</div>}
-        <div ref={ref} />
-      </div>
-      <div style={{ display: "flex", gap: 10 }}>
-        <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && send()} placeholder="Ask me to write content or give you the SQL setup script…" style={{ ...s.input, marginBottom: 0, flex: 1 }} />
-        <button onClick={send} disabled={loading} style={s.btn(C.secondary)}>Send</button>
-      </div>
-    </div>
-  );
-}
+          <div style={{ display: "flex", gap: 10 }}>
+            <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && send()} placeholder="Ask me to write content or give you the SQL setup script…" style={{ ...s.input, marginBottom: 0, flex: 1 }} />
+            <button onClick={send} disabled={loading} style={s.btn(C.secondary)}>Send</button>
+          </div>
+        </div>
+      );
+    }
 
-// ─── MAIN APP ─────────────────────────────────────────────────────────────────
-export default function App() {
-  const [cfg, setCfg] = useState(() => { try { return JSON.parse(localStorage.getItem("mesy_cfg") || "null"); } catch { return null; } });
-  const [token, setToken] = useState(() => localStorage.getItem("mesy_token") || null);
-  const [user, setUser] = useState(null);
-  const [active, setActive] = useState("overview");
+    // ── MAIN APP ──────────────────────────────────────────────────────────────
+    function App() {
+      const [cfg, setCfg] = useState(() => { try { return JSON.parse(localStorage.getItem("mesy_cfg") || "null"); } catch { return null; } });
+      const [token, setToken] = useState(() => localStorage.getItem("mesy_token") || null);
+      const [user, setUser] = useState(null);
+      const [active, setActive] = useState("overview");
 
-  const sb = cfg ? createSupabase(cfg.url, cfg.key) : null;
+      const sb = cfg ? createSupabase(cfg.url, cfg.key) : null;
+      const saveCfg = (url, key) => { const c = { url, key }; localStorage.setItem("mesy_cfg", JSON.stringify(c)); setCfg(c); };
+      const onLogin = (t, u) => { localStorage.setItem("mesy_token", t); setToken(t); setUser(u); };
+      const onLogout = () => { localStorage.removeItem("mesy_token"); setToken(null); setUser(null); };
 
-  const saveCfg = (url, key) => { const c = { url, key }; localStorage.setItem("mesy_cfg", JSON.stringify(c)); setCfg(c); };
-  const onLogin = (t, u) => { localStorage.setItem("mesy_token", t); setToken(t); setUser(u); };
-  const onLogout = () => { localStorage.removeItem("mesy_token"); setToken(null); setUser(null); };
+      if (!cfg) return <ConfigScreen onSave={saveCfg} />;
+      if (!token) return <LoginScreen sb={sb} onLogin={onLogin} />;
 
-  if (!cfg) return <ConfigScreen onSave={saveCfg} />;
-  if (!token) return <LoginScreen sb={sb} onLogin={onLogin} />;
+      const NEWS_FIELDS = [
+        { key: "title", label: "Title" },
+        { key: "body", label: "Body", type: "textarea" },
+        { key: "image_url", label: "Image", type: "file", accept: "image/*", bucket: "images" },
+        { key: "active", label: "Status", type: "toggle", default: true },
+      ];
+      const PROJECT_FIELDS = [
+        { key: "title", label: "Title" },
+        { key: "body", label: "Description", type: "textarea" },
+        { key: "icon", label: "Icon (emoji)", placeholder: "🌐" },
+        { key: "date", label: "Date", type: "date" },
+        { key: "link", label: "Read More URL", placeholder: "https://…" },
+        { key: "image_url", label: "Cover Image", type: "file", accept: "image/*", bucket: "images" },
+        { key: "active", label: "Status", type: "toggle", default: true },
+      ];
+      const TEAM_FIELDS = [
+        { key: "name", label: "Full Name" },
+        { key: "role", label: "Role / Title" },
+        { key: "bio", label: "Bio", type: "textarea" },
+        { key: "photo_url", label: "Photo", type: "file", accept: "image/*", bucket: "images" },
+      ];
+      const EVENT_FIELDS = [
+        { key: "title", label: "Event Title" },
+        { key: "description", label: "Description", type: "textarea" },
+        { key: "date", label: "Date", type: "date" },
+        { key: "location", label: "Location" },
+        { key: "cover_url", label: "Cover Image", type: "file", accept: "image/*", bucket: "images" },
+        { key: "active", label: "Status", type: "toggle", default: true },
+      ];
+      const GALLERY_FIELDS = [
+        { key: "caption", label: "Caption" },
+        { key: "type", label: "Type", type: "select", options: ["image", "video"], default: "image" },
+        { key: "file_url", label: "File", type: "file", accept: "image/*,video/*", bucket: "gallery", fileType: "auto" },
+      ];
 
-  const NEWS_FIELDS = [
-    { key: "title", label: "Title", placeholder: "News title" },
-    { key: "body", label: "Body", type: "textarea" },
-    { key: "image_url", label: "Image", type: "file", accept: "image/*", bucket: "images" },
-    { key: "active", label: "Status", type: "toggle", default: true },
-  ];
-  const PROJECT_FIELDS = [
-    { key: "title", label: "Title" },
-    { key: "body", label: "Description", type: "textarea" },
-    { key: "icon", label: "Icon (emoji)", placeholder: "🌐" },
-    { key: "date", label: "Date", type: "date" },
-    { key: "link", label: "Read More URL", placeholder: "https://…" },
-    { key: "image_url", label: "Cover Image", type: "file", accept: "image/*", bucket: "images" },
-    { key: "active", label: "Status", type: "toggle", default: true },
-  ];
-  const TEAM_FIELDS = [
-    { key: "name", label: "Full Name" },
-    { key: "role", label: "Role / Title" },
-    { key: "bio", label: "Bio", type: "textarea" },
-    { key: "photo_url", label: "Photo", type: "file", accept: "image/*", bucket: "images" },
-  ];
-  const EVENT_FIELDS = [
-    { key: "title", label: "Event Title" },
-    { key: "description", label: "Description", type: "textarea" },
-    { key: "date", label: "Date", type: "date" },
-    { key: "location", label: "Location" },
-    { key: "cover_url", label: "Cover Image", type: "file", accept: "image/*", bucket: "images" },
-    { key: "active", label: "Status", type: "toggle", default: true },
-  ];
-  const GALLERY_FIELDS = [
-    { key: "caption", label: "Caption" },
-    { key: "type", label: "Type", type: "select", options: ["image", "video"], default: "image" },
-    { key: "file_url", label: "File", type: "file", accept: "image/*,video/*", bucket: "gallery", fileType: "auto" },
-  ];
+      const panels = {
+        overview: <Overview sb={sb} />,
+        news: <CrudSection sb={sb} token={token} table="news" label="News & Updates" formTitle="News Item" fields={NEWS_FIELDS}
+          renderRow={r => (<><div style={{ width: 48, height: 48, borderRadius: 8, background: r.image_url ? `url(${r.image_url}) center/cover` : C.primary, flexShrink: 0 }} /><div><div style={{ fontWeight: 700, fontSize: 14, color: C.primary }}>{r.title}</div><div style={{ fontSize: 12, color: "#888" }}>{r.body?.slice(0, 80)}…</div></div>{r.active ? <Tag label="Active" color={C.success} /> : <Tag label="Hidden" color="#aaa" />}</>)} />,
+        projects: <CrudSection sb={sb} token={token} table="projects" label="Projects" formTitle="Project" fields={PROJECT_FIELDS}
+          renderRow={r => (<><div style={{ fontSize: 32 }}>{r.icon || "📁"}</div><div><div style={{ fontWeight: 700, fontSize: 14, color: C.primary }}>{r.title}</div><div style={{ fontSize: 12, color: "#888" }}>{r.date}</div></div>{r.active ? <Tag label="Active" color={C.success} /> : <Tag label="Hidden" color="#aaa" />}</>)} />,
+        team: <CrudSection sb={sb} token={token} table="team_members" label="Team Members" formTitle="Member" fields={TEAM_FIELDS}
+          renderRow={r => (<><div style={{ width: 44, height: 44, borderRadius: "50%", background: r.photo_url ? `url(${r.photo_url}) center/cover` : C.accent, flexShrink: 0 }} /><div><div style={{ fontWeight: 700, fontSize: 14, color: C.primary }}>{r.name}</div><div style={{ fontSize: 12, color: "#888" }}>{r.role}</div></div></>)} />,
+        events: <CrudSection sb={sb} token={token} table="events" label="Events" formTitle="Event" fields={EVENT_FIELDS}
+          renderRow={r => (<><div style={{ width: 48, height: 48, borderRadius: 8, background: r.cover_url ? `url(${r.cover_url}) center/cover` : C.secondary, flexShrink: 0 }} /><div><div style={{ fontWeight: 700, fontSize: 14, color: C.primary }}>{r.title}</div><div style={{ fontSize: 12, color: "#888" }}>{r.date} · {r.location}</div></div>{r.active ? <Tag label="Active" color={C.success} /> : <Tag label="Hidden" color="#aaa" />}</>)} />,
+        gallery: <CrudSection sb={sb} token={token} table="gallery" label="Gallery" formTitle="Media" fields={GALLERY_FIELDS}
+          renderRow={r => (<><div style={{ width: 60, height: 48, borderRadius: 8, background: "#eee", flexShrink: 0, overflow: "hidden" }}>{r.type === "video" ? <video src={r.file_url} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <img src={r.file_url} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="" />}</div><div style={{ fontWeight: 600, fontSize: 14 }}>{r.caption || "No caption"} <Tag label={r.type} color={r.type === "video" ? C.accent : C.success} /></div></>)} />,
+        contacts: <ContactSubmissions sb={sb} />,
+        ai: <AIAssistant />,
+      };
 
-  const panels = {
-    overview: <Overview sb={sb} />,
-    news: <CrudSection sb={sb} token={token} table="news" label="News & Updates" formTitle="News Item" fields={NEWS_FIELDS}
-      renderRow={r => (<><div style={{ width: 48, height: 48, borderRadius: 8, background: r.image_url ? `url(${r.image_url}) center/cover` : C.primary, flexShrink: 0 }} /><div><div style={{ fontWeight: 700, fontSize: 14, color: C.primary }}>{r.title}</div><div style={{ fontSize: 12, color: "#888" }}>{r.body?.slice(0, 80)}…</div></div>{r.active ? <Tag label="Active" color={C.success} /> : <Tag label="Hidden" color="#aaa" />}</>)} />,
-    projects: <CrudSection sb={sb} token={token} table="projects" label="Projects" formTitle="Project" fields={PROJECT_FIELDS}
-      renderRow={r => (<><div style={{ fontSize: 32 }}>{r.icon || "📁"}</div><div><div style={{ fontWeight: 700, fontSize: 14, color: C.primary }}>{r.title}</div><div style={{ fontSize: 12, color: "#888" }}>{r.date}</div></div>{r.active ? <Tag label="Active" color={C.success} /> : <Tag label="Hidden" color="#aaa" />}</>)} />,
-    team: <CrudSection sb={sb} token={token} table="team_members" label="Team Members" formTitle="Member" fields={TEAM_FIELDS}
-      renderRow={r => (<><div style={{ width: 44, height: 44, borderRadius: "50%", background: r.photo_url ? `url(${r.photo_url}) center/cover` : C.accent, flexShrink: 0 }} /><div><div style={{ fontWeight: 700, fontSize: 14, color: C.primary }}>{r.name}</div><div style={{ fontSize: 12, color: "#888" }}>{r.role}</div></div></>)} />,
-    events: <CrudSection sb={sb} token={token} table="events" label="Events" formTitle="Event" fields={EVENT_FIELDS}
-      renderRow={r => (<><div style={{ width: 48, height: 48, borderRadius: 8, background: r.cover_url ? `url(${r.cover_url}) center/cover` : C.secondary, flexShrink: 0 }} /><div><div style={{ fontWeight: 700, fontSize: 14, color: C.primary }}>{r.title}</div><div style={{ fontSize: 12, color: "#888" }}>{r.date} · {r.location}</div></div>{r.active ? <Tag label="Active" color={C.success} /> : <Tag label="Hidden" color="#aaa" />}</>)} />,
-    gallery: <CrudSection sb={sb} token={token} table="gallery" label="Gallery" formTitle="Media" fields={GALLERY_FIELDS}
-      renderRow={r => (<><div style={{ width: 60, height: 48, borderRadius: 8, background: "#eee", flexShrink: 0, overflow: "hidden" }}>{r.type === "video" ? <video src={r.file_url} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <img src={r.file_url} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="" />}</div><div style={{ fontWeight: 600, fontSize: 14 }}>{r.caption || "No caption"} <Tag label={r.type} color={r.type === "video" ? C.accent : C.success} /></div></>)} />,
-    contacts: <ContactSubmissions sb={sb} />,
-    ai: <AIAssistant />,
-  };
+      return (
+        <div style={{ display: "flex", minHeight: "100vh", background: C.bg }}>
+          <Sidebar active={active} setActive={setActive} user={user} onLogout={onLogout} />
+          <main style={{ flex: 1, padding: "36px 40px", overflowY: "auto" }}>
+            {panels[active]}
+          </main>
+        </div>
+      );
+    }
 
-  return (
-    <>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } } * { font-family: 'Poppins', sans-serif; box-sizing: border-box; }`}</style>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
-      <div style={{ display: "flex", minHeight: "100vh", background: C.bg }}>
-        <Sidebar active={active} setActive={setActive} user={user} onLogout={onLogout} />
-        <main style={{ flex: 1, padding: "36px 40px", overflowY: "auto" }}>
-          {panels[active]}
-        </main>
-      </div>
-    </>
-  );
-}
+    // ── MOUNT ─────────────────────────────────────────────────────────────────
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
