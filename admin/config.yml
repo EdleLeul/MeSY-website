@@ -3,16 +3,18 @@ backend:
   branch: main
 
 media_folder: "images/uploads"
+public_folder: "/images/uploads"
 
 collections:
   - name: "posts"
-    label: "Articles / News"
+    label: "Articles & News"
     folder: "_posts"
     create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Cover Image", name: "image", widget: "image" }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "pages"
