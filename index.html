@@ -334,30 +334,17 @@
       `).join('');
     }
 
-    // ── Fetch & render news from Supabase ────────────────────────────────
-    async function loadNews() {
-      const grid = document.getElementById('news-grid');
-      try {
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/news?select=*&active=eq.true&order=created_at.desc`,
-          { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
-        );
-        const items = await res.json();
-
-        // If Supabase returns real data, show it — otherwise fall back to placeholders
-        if (Array.isArray(items) && items.length > 0) {
-          grid.innerHTML = renderCards(items);
-        } else {
-          grid.innerHTML = renderCards(PLACEHOLDERS);
-        }
-      } catch (err) {
-        // On any network error, show placeholders silently
-        grid.innerHTML = renderCards(PLACEHOLDERS);
-        console.error(err);
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
       }
-    }
-
-    loadNews();
-  </script>
+    });
+  }
+</script>
 </body>
 </html>
